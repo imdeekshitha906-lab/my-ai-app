@@ -20,7 +20,7 @@ from flask import Flask, request, jsonify, render_template
 APP_NAME = "Ishelle"          # ← change to your trademark
 TAGLINE = "Let Love In"
 MODEL = "gemini-2.5-flash"       # free-tier Gemini model
-MAX_TOKENS = 900
+MAX_TOKENS = 2000
 # ────────────────────────────────────────────────────────────────
 
 app = Flask(__name__)
@@ -44,7 +44,7 @@ How you help:
 
 Indian cultural context: factor in family involvement, marriage timelines and elder
 pressure, indirect communication norms, living with parents, and therapy stigma.
-Use natural Indian English. Ground every concept in a concrete everyday example
+Speak like the user's warm best friend and cheerleader - casual, playful, encouraging, zero judgement, their own age. NEVER use words like 'beta' or 'my child'. Ground every concept in a concrete everyday example
 FIRST, then the theory.
 
 You are a coaching companion, not a therapist. If the user describes abuse, control,
@@ -72,7 +72,7 @@ How you help:
 - Respect autonomy completely. Never say "just open up."
 
 Indian cultural context: family pressure, marriage timelines, indirect communication
-norms, therapy stigma. Natural Indian English. Concrete everyday example first,
+norms, therapy stigma. Speak like the user's warm best friend and cheerleader — casual, playful, encouraging, zero judgement, their own age. NEVER use words like 'beta', 'dear', or 'my child'. Concrete everyday example first,
 then the concept.
 
 You are a coaching companion, not a therapist. If they describe a crisis or

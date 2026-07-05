@@ -17,7 +17,7 @@ import requests
 from flask import Flask, request, jsonify, render_template
 
 # ─────────────────────────  YOUR BRAND  ─────────────────────────
-APP_NAME = "Bandhan AI"          # ← change to your trademark
+APP_NAME = "Ishelle"          # ← change to your trademark
 TAGLINE = "Understand avoidant love, from both sides"
 MODEL = "gemini-2.5-flash"       # free-tier Gemini model
 MAX_TOKENS = 900

@@ -3,68 +3,260 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>{{ app_name }}</title>
+<meta name="theme-color" content="#A64D7E" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="{{ app_name }}" />
+<title>{{ app_name }} — {{ tagline }}</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Karla:wght@400;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
     --base:#FAF4F7; --card:#fff; --ink:#332030; --soft:#7A6375;
     --rose:#A64D7E; --rose-deep:#7E3560; --rose-tint:#F3E3EC;
-    --tulsi:#5F7F63; --line:#EBDCE4;
+    --line:#EBDCE4; --input:#FDFAFB; --shadow:rgba(51,32,48,.25);
+  }
+  body.dark{
+    --base:#221A21; --card:#2E2430; --ink:#F3E8F0; --soft:#B79CAD;
+    --rose:#C76BA0; --rose-deep:#E39BC6; --rose-tint:#472F41;
+    --line:#453644; --input:#3A2E3B; --shadow:rgba(0,0,0,.5);
   }
   *{box-sizing:border-box; margin:0}
-  body{background:var(--base); color:var(--ink); font-family:'Karla',system-ui,sans-serif; display:flex; flex-direction:column; height:100dvh}
-  header{padding:16px; text-align:center; border-bottom:1px solid var(--line); background:var(--card)}
-  header h1{font-family:'Fraunces',serif; font-size:24px; font-weight:650}
-  header h1 span{color:var(--rose)}
-  header p{color:var(--soft); font-size:12.5px; margin-top:2px}
-  .modes{display:flex; gap:8px; justify-content:center; padding:12px 16px}
-  .modes button{padding:9px 16px; border-radius:20px; border:1.5px solid var(--line); background:var(--card); color:var(--soft); font-family:inherit; font-weight:600; font-size:13px; cursor:pointer}
+  body{background:var(--base); color:var(--ink); font-family:'Karla',system-ui,sans-serif; display:flex; flex-direction:column; height:100dvh; transition:background .3s}
+  header{display:flex; align-items:center; gap:10px; padding:12px 14px; border-bottom:1px solid var(--line); background:var(--card)}
+  .hbtn{background:none; border:none; font-size:20px; cursor:pointer; color:var(--rose); padding:4px}
+  .htitle{flex:1; text-align:center}
+  .htitle h1{font-family:'Fraunces',serif; font-size:22px; font-weight:650}
+  .htitle h1 span{color:var(--rose)}
+  .htitle p{color:var(--soft); font-size:11.5px; margin-top:1px}
+  .modes{display:flex; gap:8px; justify-content:center; padding:10px 16px 4px}
+  .modes button{padding:8px 15px; border-radius:20px; border:1.5px solid var(--line); background:var(--card); color:var(--soft); font-family:inherit; font-weight:600; font-size:12.5px; cursor:pointer}
   .modes button.on{background:var(--rose-tint); border-color:var(--rose); color:var(--rose-deep)}
+  .toolrow{display:flex; gap:8px; justify-content:center; padding:6px 16px; flex-wrap:wrap}
+  .pill{font-size:11.5px; color:var(--rose-deep); background:var(--rose-tint); border:none; border-radius:20px; padding:4px 12px; font-weight:600; font-family:inherit; cursor:pointer}
+  .timerchip{display:none; font-size:11.5px; color:var(--rose-deep); background:var(--rose-tint); border-radius:20px; padding:4px 12px; font-weight:600}
   main{flex:1; overflow-y:auto; padding:8px 16px; max-width:640px; width:100%; margin:0 auto}
   .bubble{max-width:86%; padding:11px 15px; border-radius:15px; font-size:14.5px; line-height:1.55; white-space:pre-wrap; margin-bottom:10px}
   .user{margin-left:auto; background:var(--rose); color:#fff}
   .ai{margin-right:auto; background:var(--card); border:1px solid var(--line)}
+  .datechip{text-align:center; margin:14px 0 10px}
+  .datechip span{font-size:11px; color:var(--soft); background:var(--card); border:1px solid var(--line); border-radius:14px; padding:3px 12px}
+  .typing i{display:inline-block; width:6px; height:6px; margin:0 2px; border-radius:50%; background:var(--soft); animation:blink 1.2s infinite}
+  .typing i:nth-child(2){animation-delay:.2s} .typing i:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
   .starters{display:grid; gap:8px; margin-top:12px}
   .starters button{text-align:left; padding:12px 14px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-family:inherit; font-size:13.5px; cursor:pointer}
-  footer{padding:10px 16px calc(10px + env(safe-area-inset-bottom)); background:var(--card); border-top:1px solid var(--line)}
+  footer{padding:8px 16px calc(8px + env(safe-area-inset-bottom)); background:var(--card); border-top:1px solid var(--line)}
   .row{display:flex; gap:8px; max-width:640px; margin:0 auto}
-  input{flex:1; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); background:#FDFAFB; font-size:14px; font-family:inherit; color:var(--ink); outline:none}
-  input:focus{border-color:var(--rose)}
-  .send{padding:0 18px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; cursor:pointer; font-family:inherit; font-size:16px}
+  textarea#input{flex:1; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); background:var(--input); font-size:14px; font-family:inherit; color:var(--ink); outline:none; resize:none; max-height:120px}
+  textarea#input:focus{border-color:var(--rose)}
+  .send,.mic{padding:0 16px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; cursor:pointer; font-family:inherit; font-size:16px}
+  .mic{background:var(--card); color:var(--rose); border:1.5px solid var(--rose)}
+  .mic.rec{background:var(--rose-deep); color:#fff; border-color:var(--rose-deep)}
   .disclaimer{text-align:center; font-size:10.5px; color:var(--soft); margin-top:6px}
+  .disclaimer a{color:var(--rose)}
+  /* Sidebar */
+  #scrim{display:none; position:fixed; inset:0; background:var(--shadow); z-index:70}
+  #side{position:fixed; top:0; bottom:0; left:-290px; width:280px; background:var(--card); z-index:71; transition:left .25s; display:flex; flex-direction:column; border-right:1px solid var(--line)}
+  #side.open{left:0}
+  #side .shead{padding:16px; border-bottom:1px solid var(--line)}
+  #side .shead h2{font-family:'Fraunces',serif; font-size:18px}
+  #side .newchat{margin:12px 16px 6px; padding:11px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; font-family:inherit; cursor:pointer}
+  #side .list{flex:1; overflow-y:auto; padding:6px 10px}
+  .thread{display:flex; align-items:center; gap:6px; margin-bottom:4px}
+  .thread .open-t{flex:1; text-align:left; padding:10px 12px; border-radius:10px; border:none; background:none; color:var(--ink); font-family:inherit; font-size:13px; cursor:pointer; overflow:hidden; white-space:nowrap; text-overflow:ellipsis}
+  .thread.cur .open-t{background:var(--rose-tint); color:var(--rose-deep); font-weight:600}
+  .thread .del{background:none; border:none; color:var(--soft); cursor:pointer; font-size:14px; padding:6px}
+  #side .sfoot{padding:12px 16px; border-top:1px solid var(--line); display:grid; gap:8px}
+  #side .sfoot button, #side .sfoot a{text-align:left; background:none; border:none; color:var(--soft); font-family:inherit; font-size:13px; cursor:pointer; text-decoration:none; padding:4px 0}
+  /* Modals */
+  .modal{display:none; position:fixed; inset:0; background:var(--shadow); z-index:80; align-items:center; justify-content:center; padding:24px}
+  .modal .box{background:var(--card); border-radius:20px; padding:24px; max-width:400px; width:100%; text-align:center}
+  .modal h2{font-family:'Fraunces',serif; font-size:20px; margin-bottom:8px}
+  .modal p{font-size:13.5px; color:var(--soft); line-height:1.55; margin-bottom:14px}
+  .modal .btns{display:grid; gap:8px}
+  .modal .btns button{padding:12px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; font-family:inherit; cursor:pointer}
+  .modal .btns button.ghost{background:var(--card); color:var(--rose); border:1.5px solid var(--rose)}
+  /* Intake */
+  #intake{position:fixed; inset:0; background:var(--base); z-index:90; overflow-y:auto; display:none; padding:24px 16px 40px}
+  #intake .wrap{max-width:520px; margin:0 auto}
+  #intake h2{font-family:'Fraunces',serif; font-size:22px; margin:10px 0 4px}
+  #intake .sub{color:var(--soft); font-size:13px; margin-bottom:18px; line-height:1.5}
+  .q{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px; margin-bottom:12px}
+  .q h3{font-size:14.5px; margin-bottom:10px; font-weight:700}
+  .chips{display:flex; flex-wrap:wrap; gap:8px}
+  .chips button{padding:8px 14px; border-radius:18px; border:1.5px solid var(--line); background:var(--input); color:var(--ink); font-family:inherit; font-size:13px; cursor:pointer}
+  .chips button.sel{background:var(--rose-tint); border-color:var(--rose); color:var(--rose-deep); font-weight:600}
+  .own{width:100%; margin-top:8px; padding:9px 12px; border-radius:10px; border:1.5px solid var(--line); background:var(--input); font-size:13px; font-family:inherit; color:var(--ink); outline:none}
+  .own:focus{border-color:var(--rose)}
+  .why{font-size:11px; color:var(--soft); margin-top:6px}
+  .ibtns{display:flex; gap:10px; margin-top:6px}
+  .ibtns .go{flex:1; padding:13px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; font-family:inherit; font-size:14px; cursor:pointer}
+  .ibtns .skip{padding:13px 18px; border-radius:12px; border:1.5px solid var(--line); background:var(--card); color:var(--soft); font-family:inherit; font-size:13px; cursor:pointer}
+  /* Lock */
+  #lock .count{font-family:'Fraunces',serif; font-size:30px; color:var(--rose-deep); margin:10px 0}
+  #lock .premium{margin-top:14px; background:var(--rose-tint); border:1.5px dashed var(--rose); border-radius:14px; padding:14px; font-size:13.5px; color:var(--rose-deep); font-weight:600}
 </style>
 </head>
 <body>
 <header>
-  <h1>{{ app_name }} <span>·</span></h1>
-  <p>{{ tagline }}</p>
+  <button class="hbtn" onclick="toggleSide(true)">☰</button>
+  <div class="htitle">
+    <h1>{{ app_name }} <span>·</span></h1>
+    <p>{{ tagline }}</p>
+  </div>
+  <button class="hbtn" id="themeBtn" onclick="toggleTheme()">🌙</button>
 </header>
 
 <div class="modes">
   <button id="m-partner" class="on" onclick="setMode('partner')">I love an avoidant</button>
   <button id="m-avoidant" onclick="setMode('avoidant')">I am the avoidant</button>
 </div>
+<div class="toolrow">
+  <span class="timerchip" id="timerchip"></span>
+  <button class="pill" onclick="openCapsule()">💊 Master capsule</button>
+  <button class="pill" onclick="openIntake()">✎ My details</button>
+</div>
 
-<main id="chat">
-  <div class="starters" id="starters"></div>
-</main>
+<main id="chat"></main>
 
 <footer>
   <div class="row">
-    <input id="input" placeholder="Type your message…" onkeydown="if(event.key==='Enter')send()" />
+    <button class="mic" id="micBtn" onclick="toggleMic()" title="Speak instead of typing">🎙</button>
+    <textarea id="input" rows="1" placeholder="Type or speak your heart…"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send();}"></textarea>
     <button class="send" onclick="send()">→</button>
   </div>
-  <div class="disclaimer">A coaching companion, not therapy. In crisis? iCall 9152987821 · RCI counsellors near you.</div>
+  <div class="disclaimer">A coaching companion, not therapy. 18+. In crisis? iCall 9152987821 · <a href="/legal">Privacy & Terms</a></div>
 </footer>
 
+<!-- Sidebar -->
+<div id="scrim" onclick="toggleSide(false)"></div>
+<nav id="side">
+  <div class="shead"><h2>Your chats 💗</h2></div>
+  <button class="newchat" onclick="newThread()">+ New chat</button>
+  <div class="list" id="threadList"></div>
+  <div class="sfoot">
+    <button onclick="toggleTheme()"><span id="themeLabel">🌙 Dark theme</span></button>
+    <button onclick="openIntake()">✎ My details</button>
+    <a href="/legal">🛡 Privacy & Terms</a>
+  </div>
+</nav>
+
+<!-- Capsule modal -->
+<div class="modal" id="capsuleModal">
+  <div class="box">
+    <h2>💊 Master Context Capsule</h2>
+    <p id="capsuleText">Your whole thread — from the very first message — packed safely. Copy it or download it, then paste it into a fresh chat to continue without losing a thing.</p>
+    <div class="btns">
+      <button onclick="copyCapsule()">📋 Copy capsule</button>
+      <button onclick="downloadCapsule()">⬇ Download full chat (.txt)</button>
+      <button class="ghost" onclick="closeModal('capsuleModal')">Keep chatting here</button>
+    </div>
+  </div>
+</div>
+
+<!-- Thread-full question box -->
+<div class="modal" id="fullModal">
+  <div class="box">
+    <h2>This thread is growing full 💗</h2>
+    <p>To keep {{ app_name }}'s memory of you crisp, would you like your Master Context Capsule — the whole chat from the beginning — to continue in a fresh thread without losing your data?</p>
+    <div class="btns">
+      <button onclick="closeModal('fullModal'); openCapsule();">Yes, give me my capsule</button>
+      <button class="ghost" onclick="closeModal('fullModal')">Keep chatting here</button>
+    </div>
+  </div>
+</div>
+
+<!-- Lock -->
+<div class="modal" id="lock">
+  <div class="box">
+    <h2>Taking a little pause 💗</h2>
+    <p>Your free hours with {{ app_name }} are done for today. She'll be back for you in:</p>
+    <div class="count" id="lockcount">--:--:--</div>
+    <p>Good love knows how to wait. See you soon.</p>
+    <div class="premium">✨ Want her anytime, no waiting?<br/>{{ app_name }} Premium — ₹99/month<br/><span style="font-weight:400">Coming soon</span></div>
+  </div>
+</div>
+
+<!-- Intake -->
+<div id="intake">
+  <div class="wrap">
+    <h2>Before we begin… 💗</h2>
+    <p class="sub">A few gentle questions so {{ app_name }} can truly understand your world. Tap what fits, or tell it in your own words. You can skip anything — she'll never push.</p>
+
+    <div class="q" data-key="stage">
+      <h3>Where does your bond stand right now?</h3>
+      <div class="chips">
+        <button>Married</button><button>In a relationship</button><button>Long-distance</button><button>It's complicated</button><button>Broken up / on a break</button><button>Trying to reconcile</button>
+      </div>
+      <input class="own" placeholder="…or tell it in your own words" />
+    </div>
+
+    <div class="q" data-key="duration">
+      <h3>How long have you two been in each other's lives?</h3>
+      <div class="chips">
+        <button>Under a year</button><button>1–3 years</button><button>3–7 years</button><button>7+ years</button>
+      </div>
+      <input class="own" placeholder="…or in your own words" />
+    </div>
+
+    <div class="q" data-key="realized">
+      <h3>When did you first sense the avoidant pattern?</h3>
+      <div class="chips">
+        <button>Very recently</button><button>Some months ago</button><button>Over a year ago</button>
+      </div>
+      <input class="own" placeholder="…or in your own words" />
+    </div>
+
+    <div class="q" data-key="discovered">
+      <h3>How did you come to know about it?</h3>
+      <div class="chips">
+        <button>YouTube</button><button>Instagram</button><button>Podcasts</button><button>Threads / other social media</button><button>Books</button><button>Articles</button><button>A therapist</button><button>A friend</button><button>My partner told me</button><button>Still figuring it out</button>
+      </div>
+      <input class="own" placeholder="…or in your own words" />
+    </div>
+
+    <div class="q" data-key="age">
+      <h3>Your age, if you're comfortable sharing</h3>
+      <div class="chips">
+        <button>18–24</button><button>25–30</button><button>31–40</button><button>40+</button>
+      </div>
+      <input class="own" placeholder="…or type it" />
+      <div class="why">Why we ask: so {{ app_name }} understands your world better — never shared with anyone.</div>
+    </div>
+
+    <div class="q" data-key="gender">
+      <h3>And how do you identify?</h3>
+      <div class="chips">
+        <button>Woman</button><button>Man</button><button>Prefer not to say</button>
+      </div>
+      <input class="own" placeholder="…or in your own words" />
+      <div class="why">Why we ask: society treats each differently, and {{ app_name }} wants to hold your exact reality — never shared with anyone.</div>
+    </div>
+
+    <div class="ibtns">
+      <button class="go" onclick="saveIntake()">Begin with {{ app_name }} 💗</button>
+      <button class="skip" onclick="skipIntake()">Skip for now</button>
+    </div>
+  </div>
+</div>
+
 <script>
+// ─── Settings ───
+const FREE_HOURS = 3;
+const RESET_HOURS = 24;
+const FULL_WARN_EVERY = 100;   // question box every N messages
+
 let mode = "partner";
-let msgs = [];
+let profile = JSON.parse(localStorage.getItem("ishelle-profile") || "{}");
+let threads = JSON.parse(localStorage.getItem("ishelle-threads") || "[]");
+let cur = null;   // current thread object
+let lastWarnAt = 0;
 
 const STARTERS = {
   partner: [
     "Why does he go silent right after our best days together?",
-    "How do I ask for more time without pushing her away?",
+    "How do I ask for more closeness without pushing her away?",
     "Is it wrong that I feel lonely in this relationship?"
   ],
   avoidant: [
@@ -74,62 +266,284 @@ const STARTERS = {
   ]
 };
 
-function setMode(m) {
-  mode = m; msgs = [];
-  document.getElementById("m-partner").classList.toggle("on", m === "partner");
-  document.getElementById("m-avoidant").classList.toggle("on", m === "avoidant");
-  document.getElementById("chat").innerHTML = '<div class="starters" id="starters"></div>';
-  renderStarters();
+// ─── Threads ───
+function saveThreads(){ localStorage.setItem("ishelle-threads", JSON.stringify(threads)); }
+function newThread(){
+  cur = { id: Date.now(), title: "New chat", mode: mode, msgs: [] };
+  threads.unshift(cur);
+  if (threads.length > 60) threads.pop();
+  saveThreads(); renderThreadList(); renderChat(); toggleSide(false);
 }
-
-function renderStarters() {
-  const box = document.getElementById("starters");
-  if (!box) return;
+function openThread(id){
+  cur = threads.find(t => t.id === id) || cur;
+  mode = cur.mode || "partner";
+  document.getElementById("m-partner").classList.toggle("on", mode === "partner");
+  document.getElementById("m-avoidant").classList.toggle("on", mode === "avoidant");
+  renderThreadList(); renderChat(); toggleSide(false);
+}
+function deleteThread(id, ev){
+  ev.stopPropagation();
+  if (!confirm("Delete this chat permanently?")) return;
+  threads = threads.filter(t => t.id !== id);
+  saveThreads();
+  if (cur && cur.id === id){ cur = null; newThread(); } else renderThreadList();
+}
+function renderThreadList(){
+  const box = document.getElementById("threadList");
   box.innerHTML = "";
-  STARTERS[mode].forEach(s => {
+  threads.forEach(t => {
+    const d = document.createElement("div");
+    d.className = "thread" + (cur && t.id === cur.id ? " cur" : "");
     const b = document.createElement("button");
-    b.textContent = s;
-    b.onclick = () => send(s);
-    box.appendChild(b);
+    b.className = "open-t"; b.textContent = t.title || "New chat";
+    b.onclick = () => openThread(t.id);
+    const x = document.createElement("button");
+    x.className = "del"; x.textContent = "🗑"; x.onclick = (e) => deleteThread(t.id, e);
+    d.appendChild(b); d.appendChild(x); box.appendChild(d);
   });
 }
+function toggleSide(open){
+  document.getElementById("side").classList.toggle("open", open);
+  document.getElementById("scrim").style.display = open ? "block" : "none";
+}
 
-function bubble(text, who) {
+// ─── Theme ───
+function applyTheme(){
+  const dark = localStorage.getItem("ishelle-theme") === "dark";
+  document.body.classList.toggle("dark", dark);
+  document.getElementById("themeBtn").textContent = dark ? "☀️" : "🌙";
+  document.getElementById("themeLabel").textContent = dark ? "☀️ Light theme" : "🌙 Dark theme";
+}
+function toggleTheme(){
+  const dark = localStorage.getItem("ishelle-theme") === "dark";
+  localStorage.setItem("ishelle-theme", dark ? "light" : "dark");
+  applyTheme();
+}
+
+// ─── Rendering with date separators ───
+function dayLabel(ts){
+  const d = new Date(ts), now = new Date();
+  const midnight = x => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+  const diff = (midnight(now) - midnight(d)) / 86400000;
+  if (diff === 0) return "Today";
+  if (diff === 1) return "Yesterday";
+  return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+}
+function renderChat(){
+  const box = document.getElementById("chat");
+  box.innerHTML = "";
+  if (!cur || cur.msgs.length === 0){
+    const s = document.createElement("div");
+    s.className = "starters"; s.id = "starters";
+    STARTERS[mode].forEach(t => {
+      const b = document.createElement("button");
+      b.textContent = t; b.onclick = () => send(t);
+      s.appendChild(b);
+    });
+    box.appendChild(s);
+    return;
+  }
+  let lastDay = "";
+  cur.msgs.forEach(m => {
+    const label = dayLabel(m.ts || Date.now());
+    if (label !== lastDay){
+      lastDay = label;
+      const dc = document.createElement("div");
+      dc.className = "datechip"; dc.innerHTML = "<span>" + label + "</span>";
+      box.appendChild(dc);
+    }
+    const d = document.createElement("div");
+    d.className = "bubble " + (m.role === "user" ? "user" : "ai");
+    d.textContent = m.content;
+    box.appendChild(d);
+  });
+  box.lastElementChild?.scrollIntoView({ behavior: "auto" });
+}
+function bubble(text, who, typing){
+  const box = document.getElementById("chat");
   const d = document.createElement("div");
   d.className = "bubble " + who;
-  d.textContent = text;
-  document.getElementById("chat").appendChild(d);
+  if (typing) d.innerHTML = '<span class="typing"><i></i><i></i><i></i></span>';
+  else d.textContent = text;
+  box.appendChild(d);
   d.scrollIntoView({ behavior: "smooth" });
   return d;
 }
 
-async function send(preset) {
+// ─── Timer ───
+function cycleStart(){ const v = localStorage.getItem("ishelle-start"); return v ? parseInt(v) : null; }
+function checkAccess(){
+  const start = cycleStart(); const now = Date.now();
+  if (!start) return "fresh";
+  if (now - start < FREE_HOURS * 3600000) return "open";
+  if (now - start < RESET_HOURS * 3600000) return "locked";
+  localStorage.removeItem("ishelle-start"); return "fresh";
+}
+function fmt(ms){
+  const s = Math.max(0, Math.floor(ms/1000));
+  return String(Math.floor(s/3600)).padStart(2,"0")+":"+String(Math.floor((s%3600)/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+}
+function refreshLockUI(){
+  const state = checkAccess();
+  const lock = document.getElementById("lock");
+  const chip = document.getElementById("timerchip");
+  if (state === "locked"){
+    lock.style.display = "flex";
+    document.getElementById("lockcount").textContent = fmt(cycleStart() + RESET_HOURS*3600000 - Date.now());
+  } else {
+    lock.style.display = "none";
+    if (state === "open"){
+      chip.style.display = "inline-block";
+      chip.textContent = "⏳ " + fmt(cycleStart() + FREE_HOURS*3600000 - Date.now());
+    } else chip.style.display = "none";
+  }
+}
+setInterval(refreshLockUI, 1000);
+
+// ─── Master Capsule (whole thread 💊) ───
+function buildCapsule(){
+  let cap = "═══ MY " + "{{ app_name }}".toUpperCase() + " MASTER CONTEXT CAPSULE ═══\n";
+  cap += "Created: " + new Date().toLocaleString("en-IN") + "\n";
+  cap += "Mode: " + (mode === "partner" ? "I love an avoidant" : "I am the avoidant") + "\n";
+  const labels = {stage:"Situation", duration:"Together for", realized:"Realized pattern", discovered:"Discovered via", age:"Age", gender:"Gender"};
+  for (const k in labels) if (profile[k]) cap += labels[k] + ": " + profile[k] + "\n";
+  cap += "\n— Full conversation from the beginning —\n";
+  (cur ? cur.msgs : []).forEach(m => {
+    const when = m.ts ? new Date(m.ts).toLocaleString("en-IN") : "";
+    cap += "[" + when + "] " + (m.role === "user" ? "Me: " : "{{ app_name }}: ") + m.content + "\n";
+  });
+  cap += "═══ Paste this at the start of a fresh chat to continue seamlessly ═══";
+  return cap;
+}
+function openCapsule(){ document.getElementById("capsuleModal").style.display = "flex"; }
+function closeModal(id){ document.getElementById(id).style.display = "none"; }
+async function copyCapsule(){
+  try { await navigator.clipboard.writeText(buildCapsule()); document.getElementById("capsuleText").textContent = "📋 Copied! Open a new chat (☰ → New chat) and paste it as your first message — nothing lost. 💗"; }
+  catch { prompt("Copy your capsule:", buildCapsule()); }
+}
+function downloadCapsule(){
+  const blob = new Blob([buildCapsule()], { type: "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "ishelle-chat-" + new Date().toISOString().slice(0,10) + ".txt";
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+// ─── Voice input ───
+let recog = null, recording = false;
+function toggleMic(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR){ alert("Voice input isn't supported in this browser — Chrome works best."); return; }
+  const btn = document.getElementById("micBtn");
+  if (recording){ recog.stop(); return; }
+  recog = new SR();
+  recog.lang = "en-IN"; recog.interimResults = true; recog.continuous = true;
+  const input = document.getElementById("input");
+  const base = input.value ? input.value + " " : "";
+  recog.onresult = e => { let t = ""; for (const r of e.results) t += r[0].transcript; input.value = base + t; };
+  recog.onend = () => { recording = false; btn.classList.remove("rec"); btn.textContent = "🎙"; };
+  recog.onerror = () => { recording = false; btn.classList.remove("rec"); btn.textContent = "🎙"; };
+  recog.start(); recording = true; btn.classList.add("rec"); btn.textContent = "⏹";
+}
+
+// ─── Intake ───
+function openIntake(){
+  document.getElementById("intake").style.display = "block";
+  document.querySelectorAll("#intake .q").forEach(q => {
+    const key = q.dataset.key; const val = profile[key] || "";
+    const chipMatch = [...q.querySelectorAll(".chips button")].find(b => b.textContent === val);
+    q.querySelectorAll(".chips button").forEach(b => b.classList.toggle("sel", b === chipMatch));
+    q.querySelector(".own").value = chipMatch ? "" : val;
+  });
+  toggleSide(false);
+}
+function skipIntake(){
+  localStorage.setItem("ishelle-intake-seen", "1");
+  document.getElementById("intake").style.display = "none";
+}
+function saveIntake(){
+  document.querySelectorAll("#intake .q").forEach(q => {
+    const key = q.dataset.key;
+    const own = q.querySelector(".own").value.trim();
+    const chip = q.querySelector(".chips button.sel");
+    const val = own || (chip ? chip.textContent : "");
+    if (val) profile[key] = val; else delete profile[key];
+  });
+  localStorage.setItem("ishelle-profile", JSON.stringify(profile));
+  skipIntake();
+}
+document.addEventListener("click", e => {
+  if (e.target.matches("#intake .chips button")) {
+    e.target.parentElement.querySelectorAll("button").forEach(b => b.classList.remove("sel"));
+    e.target.classList.add("sel");
+    e.target.closest(".q").querySelector(".own").value = "";
+  }
+});
+
+// ─── Chat ───
+function setMode(m){
+  mode = m;
+  document.getElementById("m-partner").classList.toggle("on", m === "partner");
+  document.getElementById("m-avoidant").classList.toggle("on", m === "avoidant");
+  if (cur && cur.msgs.length === 0){ cur.mode = m; saveThreads(); }
+  else newThread();
+  renderChat();
+}
+
+async function send(preset){
+  const state = checkAccess();
+  if (state === "locked"){ refreshLockUI(); return; }
+  if (state === "fresh") localStorage.setItem("ishelle-start", String(Date.now()));
+  if (!cur) newThread();
+
   const input = document.getElementById("input");
   const content = (preset || input.value).trim();
   if (!content) return;
   input.value = "";
   document.getElementById("starters")?.remove();
+
   bubble(content, "user");
-  msgs.push({ role: "user", content });
-  const t = bubble("typing…", "ai");
+  cur.msgs.push({ role: "user", content, ts: Date.now() });
+  if (cur.title === "New chat") { cur.title = content.slice(0, 42); renderThreadList(); }
+  saveThreads();
+
+  if (cur.msgs.length - lastWarnAt >= FULL_WARN_EVERY){
+    lastWarnAt = cur.msgs.length;
+    document.getElementById("fullModal").style.display = "flex";
+  }
+
+  const t = bubble("", "ai", true);
+  const now = new Date();
+  const prof = { ...profile,
+    hour: String(now.getHours()),
+    datetime: now.toLocaleString("en-IN", { weekday:"long", day:"numeric", month:"long", year:"numeric", hour:"2-digit", minute:"2-digit" })
+  };
 
   try {
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mode, messages: msgs })
+      body: JSON.stringify({ mode, messages: cur.msgs.map(m => ({role:m.role, content:m.content})), profile: prof })
     });
     const data = await res.json();
-    if (data.error) { t.textContent = "⚠ " + data.error; msgs.pop(); return; }
+    if (data.error){ t.textContent = "⚠ " + data.error; cur.msgs.pop(); saveThreads(); return; }
     t.textContent = data.reply;
-    msgs.push({ role: "assistant", content: data.reply });
+    cur.msgs.push({ role: "assistant", content: data.reply, ts: Date.now() });
+    saveThreads();
   } catch {
     t.textContent = "⚠ Connection problem — try again.";
-    msgs.pop();
+    cur.msgs.pop(); saveThreads();
   }
 }
 
-renderStarters();
+// ─── Init ───
+applyTheme();
+if (threads.length) { cur = threads[0]; mode = cur.mode || "partner";
+  document.getElementById("m-partner").classList.toggle("on", mode === "partner");
+  document.getElementById("m-avoidant").classList.toggle("on", mode === "avoidant");
+} else newThread();
+renderThreadList(); renderChat(); refreshLockUI();
+if (!localStorage.getItem("ishelle-intake-seen")) openIntake();
 </script>
 </body>
 </html>

@@ -24,6 +24,7 @@
   body{background:var(--base); color:var(--ink); font-family:'Instrument Sans',system-ui,sans-serif; display:flex; flex-direction:column; height:100dvh; transition:background .3s}
   .serif{font-family:'Fraunces',serif}
 
+  /* Splash */
   #splash{position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px;
     background:radial-gradient(circle at 30% 25%, var(--rose-tint) 0%, transparent 55%), radial-gradient(circle at 75% 78%, var(--rose-tint) 0%, transparent 50%), var(--base)}
   #splash h1{font-family:'Fraunces',serif; font-size:44px; font-weight:650; opacity:0; animation:fadeUp 1s .2s forwards; color:var(--ink)}
@@ -73,6 +74,7 @@
   .disclaimer{text-align:center; font-size:10px; color:var(--soft); margin-top:6px}
   .disclaimer a{color:var(--rose)}
 
+  /* Sidebar */
   #scrim{display:none; position:fixed; inset:0; background:var(--shadow); z-index:70}
   #side{position:fixed; top:0; bottom:0; left:-290px; width:280px; background:var(--card); z-index:71; transition:left .25s; display:flex; flex-direction:column; border-right:1px solid var(--line)}
   #side.open{left:0}
@@ -88,6 +90,7 @@
   #side .sfoot{padding:12px 16px; border-top:1px solid var(--line); display:grid; gap:8px}
   #side .sfoot button, #side .sfoot a{text-align:left; background:none; border:none; color:var(--soft); font-family:inherit; font-size:13px; cursor:pointer; text-decoration:none; padding:4px 0}
 
+  /* Modals */
   .modal{display:none; position:fixed; inset:0; background:var(--shadow); z-index:80; align-items:center; justify-content:center; padding:24px}
   .modal .box{background:var(--card); border-radius:20px; padding:24px; max-width:400px; width:100%; text-align:center}
   .modal h2{font-family:'Fraunces',serif; font-size:20px; margin-bottom:8px}
@@ -248,7 +251,7 @@
 <div class="modal" id="lock">
   <div class="box">
     <h2 class="serif">Taking a little pause 💗</h2>
-    <p>Your free hours with {{ app_name }} are done for now. She'll be back for you in:</p>
+    <p>Your free hours with {{ app_name }} are done for today. She'll be back for you in:</p>
     <div class="count" id="lockcount">--:--:--</div>
     <p>Good love knows how to wait. See you soon.</p>
     <div class="premium">✨ Want her sooner, or always?<br/>Explore Pro & Premium in the ✨ plan menu above.<br/><span style="font-weight:400">Payments coming soon</span></div>
@@ -262,7 +265,7 @@
     <p>Real payments aren't connected yet — this lets you preview how each tier will feel.</p>
     <div class="btns">
       <button onclick="setTier('free')">Free — 3h open, resets every 5h</button>
-      <button onclick="setTier('pro')">Pro — 3h open, ~2.5h wait then refreshes</button>
+      <button onclick="setTier('pro')">Pro — 3h open, refreshes fast</button>
       <button onclick="setTier('premium')">Premium — always open, no waiting</button>
       <button class="ghost" onclick="closeModal('planModal')">Close</button>
     </div>
@@ -280,8 +283,7 @@
     </div>
     <div class="btns" style="margin-top:14px"><button class="ghost" onclick="closeModal('settingsModal')">Close</button></div>
   </div>
-</div>
-<script>
+</div><script>
 // ═══════════════════ SETTINGS ═══════════════════
 const TIERS = {
   free:    { freeHours: 3, resetHours: 5,   label: "Free" },
@@ -438,12 +440,12 @@ function renderChat(){
   const box = document.getElementById("chat");
   box.innerHTML = "";
   if (!cur){
-    box.innerHTML = '<div class="greet serif">'+greetLine()+'</div><div class="ai bubble"><b>Love isn\\'t leaving you. It\\'s just speaking a language no one taught you.</b><br><br>I\\'m glad you\\'re here. Tap a mode above whenever you\\'re ready — I\\'ll be right here.</div>';
+    box.innerHTML = '<div class="greet serif">'+greetLine()+'</div><div class="ai bubble"><b>Love isn\'t leaving you. It\'s just speaking a language no one taught you.</b><br><br>I\'m glad you\'re here. Tap a mode above whenever you\'re ready — I\'ll be right here.</div>';
     return;
   }
   if (!cur.msgs.length){
     let html = '<div class="greet serif">'+greetLine()+'</div>';
-    html += '<div class="ai bubble"><b>Love isn\\'t leaving you. It\\'s just speaking a language no one taught you.</b><br><br>Let\\'s learn it together, gently. Whenever you\\'re ready, tell me what\\'s on your heart.</div>';
+    html += '<div class="ai bubble"><b>Love isn\'t leaving you. It\'s just speaking a language no one taught you.</b><br><br>Let\'s learn it together, gently. Whenever you\'re ready, tell me what\'s on your heart.</div>';
     html += renderIntakeCard();
     html += '<div class="starters" id="starters">' + STARTERS[mode].map(s => `<button onclick="send(${JSON.stringify(s)})">${s}</button>`).join("") + '</div>';
     box.innerHTML = html;
@@ -510,15 +512,15 @@ setInterval(refreshLockUI, 1000);
 
 // ═══════════════════ CAPSULE ═══════════════════
 function buildCapsule(){
-  let cap = "═══ MY " + "{{ app_name }}".toUpperCase() + " MASTER CONTEXT CAPSULE ═══\\n";
-  cap += "Created: " + new Date().toLocaleString("en-IN") + "\\n";
-  cap += "Mode: " + (mode === "partner" ? "I love an avoidant" : "I am the avoidant") + "\\n";
+  let cap = "═══ MY " + "{{ app_name }}".toUpperCase() + " MASTER CONTEXT CAPSULE ═══\n";
+  cap += "Created: " + new Date().toLocaleString("en-IN") + "\n";
+  cap += "Mode: " + (mode === "partner" ? "I love an avoidant" : "I am the avoidant") + "\n";
   const labels = {stage:"Situation", duration:"Together for", realized:"Realized pattern", discovered:"Discovered via", age:"Age", gender:"Gender"};
-  for (const k in labels) if (profile[k]) cap += labels[k] + ": " + profile[k] + "\\n";
-  cap += "\\n— Full conversation from the beginning —\\n";
+  for (const k in labels) if (profile[k]) cap += labels[k] + ": " + profile[k] + "\n";
+  cap += "\n— Full conversation from the beginning —\n";
   (cur ? cur.msgs : []).forEach(m => {
     const when = m.ts ? new Date(m.ts).toLocaleString("en-IN") : "";
-    cap += "[" + when + "] " + (m.role === "user" ? "Me: " : "{{ app_name }}: ") + m.content + "\\n";
+    cap += "[" + when + "] " + (m.role === "user" ? "Me: " : "{{ app_name }}: ") + m.content + "\n";
   });
   cap += "═══ Paste this at the start of a fresh chat to continue seamlessly ═══";
   return cap;
@@ -575,7 +577,7 @@ function restoreDraft(){
 }
 function clearDraft(){ localStorage.removeItem("ishelle-draft"); }
 
-// ═══════════════════ INTAKE (legacy full-panel, via "My details") ═══════════════════
+// ═══════════════════ INTAKE (legacy full-panel, still available via "My details") ═══════════════════
 function openIntake(){
   let html = '<div class="box" style="max-width:440px; text-align:left; max-height:80vh; overflow-y:auto">';
   html += '<h2 class="serif" style="text-align:center">Your details 💗</h2>';
@@ -585,7 +587,7 @@ function openIntake(){
     html += `<div class="chips">` + q.chips.map(c => `<button onclick="quickSet('${q.key}','${c.replace(/'/g,"&#39;")}')" class="${cur_===c?'sel':''}">${c}</button>`).join("") + `</div>`;
     html += `<input class="qown" id="own_${q.key}" placeholder="…or in your own words" value="${[...q.chips].includes(cur_)?'':cur_}" onchange="quickSet('${q.key}', this.value)" />`;
   });
-  html += '<div class="btns" style="margin-top:16px"><button class="ghost" onclick="closeModal(\\'detailsModal\\')">Done</button></div></div>';
+  html += '<div class="btns" style="margin-top:16px"><button class="ghost" onclick="closeModal(\'detailsModal\')">Done</button></div></div>';
   let m = document.getElementById("detailsModal");
   if (!m){ m = document.createElement("div"); m.className="modal"; m.id="detailsModal"; document.body.appendChild(m); }
   m.innerHTML = html;
@@ -694,12 +696,12 @@ async function send(preset){
       body: JSON.stringify({ mode, messages: cur.msgs.map(m => ({role:m.role, content:m.content})), profile: prof, partner_notes: getNotes() })
     });
     const data = await res.json();
-    if (data.error){ t.textContent = "That thought needs a moment to land — mind trying again? 💗"; 
+    if (data.error){ t.textContent = "That thought needs a moment to land — mind trying again? 💗"; cur.msgs.pop(); saveThreads(); console.warn(data.error); return; }
+    t.textContent = data.reply;
     cur.msgs.push({ role: "assistant", content: data.reply, ts: Date.now() });
     saveThreads();
   } catch {
-    t.textContent = "Seems we lost signal for a second — I'm still here, try again? 💗";cur.msgs.pop(); saveThreads(); console.warn(data.error); return; }
-    t.textContent = data.reply;
+    t.textContent = "Seems we lost signal for a second — I'm still here, try again? 💗";
     cur.msgs.pop(); saveThreads();
   }
 }

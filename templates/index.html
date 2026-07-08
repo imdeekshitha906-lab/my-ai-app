@@ -8,11 +8,11 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-title" content="{{ app_name }}" />
 <title>{{ app_name }} — {{ tagline }}</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Karla:wght@400;600;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,650;1,9..144,500&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root{
     --base:#FAF4F7; --card:#fff; --ink:#332030; --soft:#7A6375;
-    --rose:#A64D7E; --rose-deep:#7E3560; --rose-tint:#F3E3EC;
+    --rose:#A64D7E; --rose-mid:#C76BA0; --rose-lite:#D98FBC; --rose-deep:#7E3560; --rose-tint:#F3E3EC;
     --line:#EBDCE4; --input:#FDFAFB; --shadow:rgba(51,32,48,.25);
   }
   body.dark{
@@ -21,30 +21,48 @@
     --line:#453644; --input:#3A2E3B; --shadow:rgba(0,0,0,.5);
   }
   *{box-sizing:border-box; margin:0}
-  body{background:var(--base); color:var(--ink); font-family:'Karla',system-ui,sans-serif; display:flex; flex-direction:column; height:100dvh; transition:background .3s}
-  header{display:flex; align-items:center; gap:10px; padding:12px 14px; border-bottom:1px solid var(--line); background:var(--card)}
+  body{background:var(--base); color:var(--ink); font-family:'Instrument Sans',system-ui,sans-serif; display:flex; flex-direction:column; height:100dvh; transition:background .3s}
+  .serif{font-family:'Fraunces',serif}
+
+  #splash{position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px;
+    background:radial-gradient(circle at 30% 25%, var(--rose-tint) 0%, transparent 55%), radial-gradient(circle at 75% 78%, var(--rose-tint) 0%, transparent 50%), var(--base)}
+  #splash h1{font-family:'Fraunces',serif; font-size:44px; font-weight:650; opacity:0; animation:fadeUp 1s .2s forwards; color:var(--ink)}
+  #splash h1 span{color:var(--rose)}
+  #splash .tag{font-size:11.5px; letter-spacing:3px; text-transform:uppercase; color:var(--rose-deep); margin-top:10px; opacity:0; animation:fadeUp 1s .8s forwards}
+  @keyframes fadeUp{from{opacity:0; transform:translateY(10px)}to{opacity:1; transform:translateY(0)}}
+
+  header{display:flex; align-items:center; padding:12px 14px; border-bottom:1px solid var(--line); background:var(--card)}
   .hbtn{background:none; border:none; font-size:20px; cursor:pointer; color:var(--rose); padding:4px}
   .htitle{flex:1; text-align:center}
-  .htitle h1{font-family:'Fraunces',serif; font-size:22px; font-weight:650}
+  .htitle h1{font-size:21px; font-weight:650}
   .htitle h1 span{color:var(--rose)}
-  .htitle p{color:var(--soft); font-size:11.5px; margin-top:1px}
+  .htitle p{color:var(--soft); font-size:10px; margin-top:1px; letter-spacing:.5px; text-transform:uppercase}
   .modes{display:flex; gap:8px; justify-content:center; padding:10px 16px 4px}
   .modes button{padding:8px 15px; border-radius:20px; border:1.5px solid var(--line); background:var(--card); color:var(--soft); font-family:inherit; font-weight:600; font-size:12.5px; cursor:pointer}
   .modes button.on{background:var(--rose-tint); border-color:var(--rose); color:var(--rose-deep)}
-  .toolrow{display:flex; gap:8px; justify-content:center; padding:6px 16px; flex-wrap:wrap}
-  .pill{font-size:11.5px; color:var(--rose-deep); background:var(--rose-tint); border:none; border-radius:20px; padding:4px 12px; font-weight:600; font-family:inherit; cursor:pointer}
-  .timerchip{display:none; font-size:11.5px; color:var(--rose-deep); background:var(--rose-tint); border-radius:20px; padding:4px 12px; font-weight:600}
-  main{flex:1; overflow-y:auto; padding:8px 16px; max-width:640px; width:100%; margin:0 auto}
-  .bubble{max-width:86%; padding:11px 15px; border-radius:15px; font-size:14.5px; line-height:1.55; white-space:pre-wrap; margin-bottom:10px}
-  .user{margin-left:auto; background:var(--rose); color:#fff}
-  .ai{margin-right:auto; background:var(--card); border:1px solid var(--line)}
+  .toolrow{display:flex; gap:7px; justify-content:center; padding:6px 16px; flex-wrap:wrap}
+  .pill{font-size:11px; color:var(--rose-deep); background:var(--rose-tint); border:none; border-radius:20px; padding:5px 12px; font-weight:600; font-family:inherit; cursor:pointer}
+  .pill.on{background:var(--rose-deep); color:#fff}
+  .timerchip{display:none; font-size:11px; color:var(--rose-deep); background:var(--rose-tint); border-radius:20px; padding:5px 12px; font-weight:600}
+  main{flex:1; overflow-y:auto; padding:10px 16px; max-width:640px; width:100%; margin:0 auto}
+  .greet{font-family:'Fraunces',serif; font-style:italic; font-size:14.5px; color:var(--rose-deep); margin-bottom:14px}
+  .bubble{max-width:88%; padding:13px 16px; border-radius:6px 18px 18px 18px; font-size:14.5px; line-height:1.65; white-space:pre-wrap; margin-bottom:10px}
+  .user{margin-left:auto; background:var(--rose); color:#fff; border-radius:18px 6px 18px 18px}
+  .ai{margin-right:auto; background:var(--card); border:1px solid var(--line); color:var(--ink)}
   .datechip{text-align:center; margin:14px 0 10px}
-  .datechip span{font-size:11px; color:var(--soft); background:var(--card); border:1px solid var(--line); border-radius:14px; padding:3px 12px}
-  .typing i{display:inline-block; width:6px; height:6px; margin:0 2px; border-radius:50%; background:var(--soft); animation:blink 1.2s infinite}
+  .datechip span{font-size:10.5px; color:var(--soft); background:var(--card); border:1px solid var(--line); border-radius:14px; padding:3px 12px}
+  .typing{display:inline-flex; align-items:center; gap:5px}
+  .typing i{display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--rose); animation:pulse2 1.4s infinite ease-in-out}
   .typing i:nth-child(2){animation-delay:.2s} .typing i:nth-child(3){animation-delay:.4s}
-  @keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
-  .starters{display:grid; gap:8px; margin-top:12px}
+  @keyframes pulse2{0%,100%{opacity:.3; transform:scale(.85)}50%{opacity:1; transform:scale(1.05)}}
+  .starters{display:grid; gap:8px; margin-top:6px}
   .starters button{text-align:left; padding:12px 14px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-family:inherit; font-size:13.5px; cursor:pointer}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px}
+  .chips button{padding:9px 15px; border-radius:20px; font-size:12.5px; font-weight:500; background:var(--rose-tint); color:var(--rose-deep); border:1.5px solid transparent; font-family:inherit; cursor:pointer}
+  .chips button.sel{border-color:var(--rose)}
+  .qown{width:100%; margin-top:10px; padding:10px 13px; border-radius:12px; border:1.5px solid var(--line); background:var(--input); font-size:13px; font-family:inherit; color:var(--ink); outline:none}
+  .skiprow{display:flex; justify-content:flex-end; margin-top:8px}
+  .skiprow span{font-size:11.5px; color:var(--soft); cursor:pointer}
   footer{padding:8px 16px calc(8px + env(safe-area-inset-bottom)); background:var(--card); border-top:1px solid var(--line)}
   .row{display:flex; gap:8px; max-width:640px; margin:0 auto}
   textarea#input{flex:1; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); background:var(--input); font-size:14px; font-family:inherit; color:var(--ink); outline:none; resize:none; max-height:120px}
@@ -52,15 +70,16 @@
   .send,.mic{padding:0 16px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; cursor:pointer; font-family:inherit; font-size:16px}
   .mic{background:var(--card); color:var(--rose); border:1.5px solid var(--rose)}
   .mic.rec{background:var(--rose-deep); color:#fff; border-color:var(--rose-deep)}
-  .disclaimer{text-align:center; font-size:10.5px; color:var(--soft); margin-top:6px}
+  .disclaimer{text-align:center; font-size:10px; color:var(--soft); margin-top:6px}
   .disclaimer a{color:var(--rose)}
-  /* Sidebar */
+
   #scrim{display:none; position:fixed; inset:0; background:var(--shadow); z-index:70}
   #side{position:fixed; top:0; bottom:0; left:-290px; width:280px; background:var(--card); z-index:71; transition:left .25s; display:flex; flex-direction:column; border-right:1px solid var(--line)}
   #side.open{left:0}
   #side .shead{padding:16px; border-bottom:1px solid var(--line)}
   #side .shead h2{font-family:'Fraunces',serif; font-size:18px}
-  #side .newchat{margin:12px 16px 6px; padding:11px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; font-family:inherit; cursor:pointer}
+  #side .newchat{margin:12px 16px 4px; padding:11px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; font-family:inherit; cursor:pointer}
+  #side .inco{margin:0 16px 8px; padding:10px; border-radius:12px; border:1.5px dashed var(--rose); background:none; color:var(--rose-deep); font-weight:700; font-family:inherit; cursor:pointer; font-size:12.5px}
   #side .list{flex:1; overflow-y:auto; padding:6px 10px}
   .thread{display:flex; align-items:center; gap:6px; margin-bottom:4px}
   .thread .open-t{flex:1; text-align:left; padding:10px 12px; border-radius:10px; border:none; background:none; color:var(--ink); font-family:inherit; font-size:13px; cursor:pointer; overflow:hidden; white-space:nowrap; text-overflow:ellipsis}
@@ -68,40 +87,38 @@
   .thread .del{background:none; border:none; color:var(--soft); cursor:pointer; font-size:14px; padding:6px}
   #side .sfoot{padding:12px 16px; border-top:1px solid var(--line); display:grid; gap:8px}
   #side .sfoot button, #side .sfoot a{text-align:left; background:none; border:none; color:var(--soft); font-family:inherit; font-size:13px; cursor:pointer; text-decoration:none; padding:4px 0}
-  /* Modals */
+
   .modal{display:none; position:fixed; inset:0; background:var(--shadow); z-index:80; align-items:center; justify-content:center; padding:24px}
   .modal .box{background:var(--card); border-radius:20px; padding:24px; max-width:400px; width:100%; text-align:center}
   .modal h2{font-family:'Fraunces',serif; font-size:20px; margin-bottom:8px}
   .modal p{font-size:13.5px; color:var(--soft); line-height:1.55; margin-bottom:14px}
+  .modal input.pin{width:100%; text-align:center; letter-spacing:10px; font-size:22px; padding:12px; border-radius:12px; border:1.5px solid var(--line); background:var(--input); color:var(--ink); margin-bottom:10px}
+  .modal textarea.fb{width:100%; padding:11px; border-radius:12px; border:1.5px solid var(--line); background:var(--input); color:var(--ink); font-family:inherit; font-size:13.5px; min-height:70px; margin-bottom:10px}
   .modal .btns{display:grid; gap:8px}
   .modal .btns button{padding:12px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; font-family:inherit; cursor:pointer}
   .modal .btns button.ghost{background:var(--card); color:var(--rose); border:1.5px solid var(--rose)}
-  /* Intake */
-  #intake{position:fixed; inset:0; background:var(--base); z-index:90; overflow-y:auto; display:none; padding:24px 16px 40px}
-  #intake .wrap{max-width:520px; margin:0 auto}
-  #intake h2{font-family:'Fraunces',serif; font-size:22px; margin:10px 0 4px}
-  #intake .sub{color:var(--soft); font-size:13px; margin-bottom:18px; line-height:1.5}
-  .q{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px; margin-bottom:12px}
-  .q h3{font-size:14.5px; margin-bottom:10px; font-weight:700}
-  .chips{display:flex; flex-wrap:wrap; gap:8px}
-  .chips button{padding:8px 14px; border-radius:18px; border:1.5px solid var(--line); background:var(--input); color:var(--ink); font-family:inherit; font-size:13px; cursor:pointer}
-  .chips button.sel{background:var(--rose-tint); border-color:var(--rose); color:var(--rose-deep); font-weight:600}
-  .own{width:100%; margin-top:8px; padding:9px 12px; border-radius:10px; border:1.5px solid var(--line); background:var(--input); font-size:13px; font-family:inherit; color:var(--ink); outline:none}
-  .own:focus{border-color:var(--rose)}
-  .why{font-size:11px; color:var(--soft); margin-top:6px}
-  .ibtns{display:flex; gap:10px; margin-top:6px}
-  .ibtns .go{flex:1; padding:13px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; font-family:inherit; font-size:14px; cursor:pointer}
-  .ibtns .skip{padding:13px 18px; border-radius:12px; border:1.5px solid var(--line); background:var(--card); color:var(--soft); font-family:inherit; font-size:13px; cursor:pointer}
-  /* Lock */
   #lock .count{font-family:'Fraunces',serif; font-size:30px; color:var(--rose-deep); margin:10px 0}
   #lock .premium{margin-top:14px; background:var(--rose-tint); border:1.5px dashed var(--rose); border-radius:14px; padding:14px; font-size:13.5px; color:var(--rose-deep); font-weight:600}
+  #applock{position:fixed; inset:0; z-index:150; display:none; align-items:center; justify-content:center; background:var(--base); flex-direction:column; padding:30px}
+  #applock h2{font-family:'Fraunces',serif; font-size:22px; margin-bottom:16px}
+  .fbstars{display:flex; gap:8px; justify-content:center; margin-bottom:10px; font-size:26px}
+  .fbstars span{cursor:pointer; opacity:.35}
+  .fbstars span.on{opacity:1}
+  .settingsrow{display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--line); font-size:13.5px}
+  .settingsrow select{border:1px solid var(--line); border-radius:8px; padding:5px 8px; background:var(--card); color:var(--ink); font-family:inherit}
 </style>
 </head>
 <body>
+
+<div id="splash">
+  <h1>{{ app_name }} <span>·</span></h1>
+  <div class="tag">{{ tagline }}</div>
+</div>
+
 <header>
   <button class="hbtn" onclick="toggleSide(true)">☰</button>
   <div class="htitle">
-    <h1>{{ app_name }} <span>·</span></h1>
+    <h1 class="serif">{{ app_name }} <span>·</span></h1>
     <p>{{ tagline }}</p>
   </div>
   <button class="hbtn" id="themeBtn" onclick="toggleTheme()">🌙</button>
@@ -113,8 +130,11 @@
 </div>
 <div class="toolrow">
   <span class="timerchip" id="timerchip"></span>
-  <button class="pill" onclick="openCapsule()">💊 Master capsule</button>
+  <button class="pill" id="planPill" onclick="openPlan()">✨ Free plan</button>
+  <button class="pill" onclick="openCapsule()">💊 Capsule</button>
   <button class="pill" onclick="openIntake()">✎ My details</button>
+  <button class="pill" onclick="openNotes()">🧠 About them</button>
+  <button class="pill" id="lockPill" onclick="openLockSetup()">🔒 App lock</button>
 </div>
 
 <main id="chat"></main>
@@ -123,21 +143,26 @@
   <div class="row">
     <button class="mic" id="micBtn" onclick="toggleMic()" title="Speak instead of typing">🎙</button>
     <textarea id="input" rows="1" placeholder="Type or speak your heart…"
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send();}"></textarea>
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send();}"
+      oninput="saveDraft()"></textarea>
     <button class="send" onclick="send()">→</button>
   </div>
   <div class="disclaimer">A coaching companion, not therapy. 18+. In crisis? iCall 9152987821 · <a href="/legal">Privacy & Terms</a></div>
 </footer>
-
 <!-- Sidebar -->
 <div id="scrim" onclick="toggleSide(false)"></div>
 <nav id="side">
   <div class="shead"><h2>Your chats 💗</h2></div>
   <button class="newchat" onclick="newThread()">+ New chat</button>
+  <button class="inco" onclick="newThread(true)">🕶 Incognito chat (auto-erases in 72h)</button>
   <div class="list" id="threadList"></div>
   <div class="sfoot">
     <button onclick="toggleTheme()"><span id="themeLabel">🌙 Dark theme</span></button>
     <button onclick="openIntake()">✎ My details</button>
+    <button onclick="openNotes()">🧠 About their partner</button>
+    <button onclick="openFeedback()">💬 Send feedback</button>
+    <button onclick="openLockSetup()">🔒 App lock</button>
+    <button onclick="eraseAll()" style="color:#b23a3a">🗑 Erase everything</button>
     <a href="/legal">🛡 Privacy & Terms</a>
   </div>
 </nav>
@@ -145,8 +170,8 @@
 <!-- Capsule modal -->
 <div class="modal" id="capsuleModal">
   <div class="box">
-    <h2>💊 Master Context Capsule</h2>
-    <p id="capsuleText">Your whole thread — from the very first message — packed safely. Copy it or download it, then paste it into a fresh chat to continue without losing a thing.</p>
+    <h2 class="serif">💊 Master Context Capsule</h2>
+    <p id="capsuleText">Your whole thread — from the very first message — packed safely. Copy or download it, then paste into a fresh chat to continue without losing a thing.</p>
     <div class="btns">
       <button onclick="copyCapsule()">📋 Copy capsule</button>
       <button onclick="downloadCapsule()">⬇ Download full chat (.txt)</button>
@@ -158,8 +183,8 @@
 <!-- Thread-full question box -->
 <div class="modal" id="fullModal">
   <div class="box">
-    <h2>This thread is growing full 💗</h2>
-    <p>To keep {{ app_name }}'s memory of you crisp, would you like your Master Context Capsule — the whole chat from the beginning — to continue in a fresh thread without losing your data?</p>
+    <h2 class="serif">This thread is growing full 💗</h2>
+    <p>To keep {{ app_name }}'s memory of you crisp, would you like your Master Context Capsule to continue in a fresh thread without losing your data?</p>
     <div class="btns">
       <button onclick="closeModal('fullModal'); openCapsule();">Yes, give me my capsule</button>
       <button class="ghost" onclick="closeModal('fullModal')">Keep chatting here</button>
@@ -167,109 +192,158 @@
   </div>
 </div>
 
-<!-- Lock -->
+<!-- Second Brain: partner notes -->
+<div class="modal" id="notesModal">
+  <div class="box">
+    <h2 class="serif">🧠 About their partner</h2>
+    <p>Tell {{ app_name }} anything about your partner's texting style, habits, or patterns — she'll remember, and never overwrite what you've already shared.</p>
+    <textarea class="fb" id="notesBox" placeholder="e.g. He goes quiet for 2 days after fights. Never initiates calls. Replies fast in the morning..."></textarea>
+    <div class="btns">
+      <button onclick="saveNotes()">Save to memory</button>
+      <button class="ghost" onclick="closeModal('notesModal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Feedback -->
+<div class="modal" id="feedbackModal">
+  <div class="box">
+    <h2 class="serif">💬 How's Ishelle doing?</h2>
+    <div class="fbstars" id="fbstars">
+      <span onclick="setStar(1)">★</span><span onclick="setStar(2)">★</span><span onclick="setStar(3)">★</span><span onclick="setStar(4)">★</span><span onclick="setStar(5)">★</span>
+    </div>
+    <textarea class="fb" id="fbText" placeholder="Anything you'd like her to know? (optional, anonymous)"></textarea>
+    <div class="btns">
+      <button onclick="sendFeedback()">Send</button>
+      <button class="ghost" onclick="closeModal('feedbackModal')">Not now</button>
+    </div>
+  </div>
+</div>
+
+<!-- App lock setup -->
+<div class="modal" id="lockSetupModal">
+  <div class="box">
+    <h2 class="serif">🔒 App Lock</h2>
+    <p id="lockSetupText">Set a 4-digit PIN so only you can open {{ app_name }}.</p>
+    <input class="pin" id="pinInput" maxlength="4" inputmode="numeric" placeholder="••••" />
+    <div class="btns">
+      <button onclick="savePin()">Save PIN</button>
+      <button class="ghost" onclick="removePin()">Remove lock</button>
+      <button class="ghost" onclick="closeModal('lockSetupModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- App lock screen -->
+<div id="applock">
+  <h2>🔒 Enter your PIN</h2>
+  <input class="pin" id="pinCheck" maxlength="4" inputmode="numeric" style="max-width:220px" />
+  <div class="btns" style="margin-top:14px; width:100%; max-width:260px">
+    <button onclick="checkPin()">Unlock</button>
+  </div>
+  <p id="pinError" style="color:#b23a3a; font-size:12.5px; margin-top:10px"></p>
+</div>
+
+<!-- Lock (time-based) -->
 <div class="modal" id="lock">
   <div class="box">
-    <h2>Taking a little pause 💗</h2>
-    <p>Your free hours with {{ app_name }} are done for today. She'll be back for you in:</p>
+    <h2 class="serif">Taking a little pause 💗</h2>
+    <p>Your free hours with {{ app_name }} are done for now. She'll be back for you in:</p>
     <div class="count" id="lockcount">--:--:--</div>
     <p>Good love knows how to wait. See you soon.</p>
-    <div class="premium">✨ Want her anytime, no waiting?<br/>{{ app_name }} Premium — ₹99/month<br/><span style="font-weight:400">Coming soon</span></div>
+    <div class="premium">✨ Want her sooner, or always?<br/>Explore Pro & Premium in the ✨ plan menu above.<br/><span style="font-weight:400">Payments coming soon</span></div>
   </div>
 </div>
 
-<!-- Intake -->
-<div id="intake">
-  <div class="wrap">
-    <h2>Before we begin… 💗</h2>
-    <p class="sub">A few gentle questions so {{ app_name }} can truly understand your world. Tap what fits, or tell it in your own words. You can skip anything — she'll never push.</p>
-
-    <div class="q" data-key="stage">
-      <h3>Where does your bond stand right now?</h3>
-      <div class="chips">
-        <button>Married</button><button>In a relationship</button><button>Long-distance</button><button>It's complicated</button><button>Broken up / on a break</button><button>Trying to reconcile</button>
-      </div>
-      <input class="own" placeholder="…or tell it in your own words" />
-    </div>
-
-    <div class="q" data-key="duration">
-      <h3>How long have you two been in each other's lives?</h3>
-      <div class="chips">
-        <button>Under a year</button><button>1–3 years</button><button>3–7 years</button><button>7+ years</button>
-      </div>
-      <input class="own" placeholder="…or in your own words" />
-    </div>
-
-    <div class="q" data-key="realized">
-      <h3>When did you first sense the avoidant pattern?</h3>
-      <div class="chips">
-        <button>Very recently</button><button>Some months ago</button><button>Over a year ago</button>
-      </div>
-      <input class="own" placeholder="…or in your own words" />
-    </div>
-
-    <div class="q" data-key="discovered">
-      <h3>How did you come to know about it?</h3>
-      <div class="chips">
-        <button>YouTube</button><button>Instagram</button><button>Podcasts</button><button>Threads / other social media</button><button>Books</button><button>Articles</button><button>A therapist</button><button>A friend</button><button>My partner told me</button><button>Still figuring it out</button>
-      </div>
-      <input class="own" placeholder="…or in your own words" />
-    </div>
-
-    <div class="q" data-key="age">
-      <h3>Your age, if you're comfortable sharing</h3>
-      <div class="chips">
-        <button>18–24</button><button>25–30</button><button>31–40</button><button>40+</button>
-      </div>
-      <input class="own" placeholder="…or type it" />
-      <div class="why">Why we ask: so {{ app_name }} understands your world better — never shared with anyone.</div>
-    </div>
-
-    <div class="q" data-key="gender">
-      <h3>And how do you identify?</h3>
-      <div class="chips">
-        <button>Woman</button><button>Man</button><button>Prefer not to say</button>
-      </div>
-      <input class="own" placeholder="…or in your own words" />
-      <div class="why">Why we ask: society treats each differently, and {{ app_name }} wants to hold your exact reality — never shared with anyone.</div>
-    </div>
-
-    <div class="ibtns">
-      <button class="go" onclick="saveIntake()">Begin with {{ app_name }} 💗</button>
-      <button class="skip" onclick="skipIntake()">Skip for now</button>
+<!-- Plan (preview only — payments not live yet) -->
+<div class="modal" id="planModal">
+  <div class="box">
+    <h2 class="serif">✨ Your plan</h2>
+    <p>Real payments aren't connected yet — this lets you preview how each tier will feel.</p>
+    <div class="btns">
+      <button onclick="setTier('free')">Free — 3h open, resets every 5h</button>
+      <button onclick="setTier('pro')">Pro — 3h open, ~2.5h wait then refreshes</button>
+      <button onclick="setTier('premium')">Premium — always open, no waiting</button>
+      <button class="ghost" onclick="closeModal('planModal')">Close</button>
     </div>
   </div>
 </div>
 
+<!-- Font size (in settings, simple inline for now) -->
+<div class="modal" id="settingsModal">
+  <div class="box">
+    <h2 class="serif">Settings</h2>
+    <div class="settingsrow">Text size
+      <select id="fontSel" onchange="setFontSize(this.value)">
+        <option value="14">Small</option><option value="15.5">Medium</option><option value="17.5">Large</option>
+      </select>
+    </div>
+    <div class="btns" style="margin-top:14px"><button class="ghost" onclick="closeModal('settingsModal')">Close</button></div>
+  </div>
+</div>
 <script>
-// ─── Settings ───
-const FREE_HOURS = 3;
-const RESET_HOURS = 24;
-const FULL_WARN_EVERY = 100;   // question box every N messages
+// ═══════════════════ SETTINGS ═══════════════════
+const TIERS = {
+  free:    { freeHours: 3, resetHours: 5,   label: "Free" },
+  pro:     { freeHours: 3, resetHours: 2.5, label: "Pro" },
+  premium: { freeHours: null, resetHours: null, label: "Premium" }
+};
+const FULL_WARN_EVERY = 100;
+const INCOGNITO_HOURS = 72;
+
+function getTier(){ return localStorage.getItem("ishelle-tier") || "free"; }
+function setTier(t){
+  localStorage.setItem("ishelle-tier", t);
+  refreshLockUI();
+  updatePlanBadge();
+  closeModal("planModal");
+}
 
 let mode = "partner";
 let profile = JSON.parse(localStorage.getItem("ishelle-profile") || "{}");
 let threads = JSON.parse(localStorage.getItem("ishelle-threads") || "[]");
-let cur = null;   // current thread object
+let cur = null;
 let lastWarnAt = 0;
+let starVal = 0;
 
 const STARTERS = {
-  partner: [
-    "Why does he go silent right after our best days together?",
-    "How do I ask for more closeness without pushing her away?",
-    "Is it wrong that I feel lonely in this relationship?"
-  ],
-  avoidant: [
-    "I suddenly find flaws in my partner when things get serious. Why?",
-    "How do I tell them I need space without hurting them?",
-    "I want to change but opening up feels impossible."
-  ]
+  partner: ["Why does he go silent right after our best days together?","How do I ask for more closeness without pushing her away?","Is it wrong that I feel lonely in this relationship?"],
+  avoidant: ["I suddenly find flaws in my partner when things get serious. Why?","How do I tell them I need space without hurting them?","I want to change but opening up feels impossible."]
 };
 
-// ─── Threads ───
+const INTAKE_Q = [
+  {key:"stage", q:"Where does your bond stand right now?", chips:["Married","In a relationship","Long-distance","It's complicated","Broken up / on a break","Trying to reconcile"]},
+  {key:"duration", q:"How long have you two been in each other's lives?", chips:["Under a year","1–3 years","3–7 years","7+ years"]},
+  {key:"realized", q:"When did you first sense the avoidant pattern?", chips:["Very recently","Some months ago","Over a year ago"]},
+  {key:"discovered", q:"How did you come to know about it?", chips:["YouTube","Instagram","Podcasts","Books","A therapist","A friend","My partner told me","Still figuring it out"]},
+  {key:"age", q:"Your age, if you're comfortable sharing", chips:["18–24","25–30","31–40","40+"]},
+  {key:"gender", q:"And how do you identify?", chips:["Woman","Man","Prefer not to say"]}
+];
+
+function greetLine(){
+  const h = new Date().getHours();
+  if (h>=1 && h<5) return "2am thoughts again? Good thing I never sleep 😌";
+  if (h>=5 && h<12) return "Good morning 💗 the heart woke up before the coffee, didn't it?";
+  if (h>=12 && h<17) return "Stealing a moment for your heart between everything? Smart.";
+  if (h>=17 && h<21) return "Evening — the hour when hearts get a little loud. I'm glad you're here.";
+  if (h>=21 || h<1) return "The night suits you. Come, tell me everything.";
+  return "Hi, I'm glad you're here.";
+}
+
+// ═══════════════════ SPLASH ═══════════════════
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    const s = document.getElementById("splash");
+    s.style.transition = "opacity .7s";
+    s.style.opacity = 0;
+    setTimeout(() => s.style.display = "none", 700);
+  }, 1900);
+});
+
+// ═══════════════════ THREADS ═══════════════════
 function saveThreads(){ localStorage.setItem("ishelle-threads", JSON.stringify(threads)); }
-function newThread(){
-  cur = { id: Date.now(), title: "New chat", mode: mode, msgs: [] };
+function newThread(incognito){
+  cur = { id: Date.now(), title: incognito ? "🕶 Incognito" : "New chat", mode: mode, msgs: [], incognito: !!incognito, expires: incognito ? Date.now() + INCOGNITO_HOURS*3600000 : null, intakeStep: 0 };
   threads.unshift(cur);
   if (threads.length > 60) threads.pop();
   saveThreads(); renderThreadList(); renderChat(); toggleSide(false);
@@ -286,12 +360,17 @@ function deleteThread(id, ev){
   if (!confirm("Delete this chat permanently?")) return;
   threads = threads.filter(t => t.id !== id);
   saveThreads();
-  if (cur && cur.id === id){ cur = null; newThread(); } else renderThreadList();
+  if (cur && cur.id === id){ cur = null; renderThreadList(); renderChat(); } else renderThreadList();
+}
+function pruneExpired(){
+  const before = threads.length;
+  threads = threads.filter(t => !t.expires || t.expires > Date.now());
+  if (threads.length !== before) saveThreads();
 }
 function renderThreadList(){
   const box = document.getElementById("threadList");
   box.innerHTML = "";
-  threads.forEach(t => {
+  threads.filter(t => !t.incognito).forEach(t => {
     const d = document.createElement("div");
     d.className = "thread" + (cur && t.id === cur.id ? " cur" : "");
     const b = document.createElement("button");
@@ -307,7 +386,7 @@ function toggleSide(open){
   document.getElementById("scrim").style.display = open ? "block" : "none";
 }
 
-// ─── Theme ───
+// ═══════════════════ THEME & FONT SIZE ═══════════════════
 function applyTheme(){
   const dark = localStorage.getItem("ishelle-theme") === "dark";
   document.body.classList.toggle("dark", dark);
@@ -319,8 +398,13 @@ function toggleTheme(){
   localStorage.setItem("ishelle-theme", dark ? "light" : "dark");
   applyTheme();
 }
+function setFontSize(px){
+  localStorage.setItem("ishelle-fontsize", px);
+  document.getElementById("chat").style.fontSize = px + "px";
+}
+(function(){ const f = localStorage.getItem("ishelle-fontsize"); if (f) document.addEventListener("DOMContentLoaded", () => setFontSize(f)); })();
 
-// ─── Rendering with date separators ───
+// ═══════════════════ DATE LABELS & RENDER ═══════════════════
 function dayLabel(ts){
   const d = new Date(ts), now = new Date();
   const midnight = x => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
@@ -329,36 +413,54 @@ function dayLabel(ts){
   if (diff === 1) return "Yesterday";
   return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }
+
+function renderIntakeCard(){
+  const step = cur.intakeStep || 0;
+  if (step >= INTAKE_Q.length) return "";
+  const q = INTAKE_Q[step];
+  const chipHtml = q.chips.map(c => `<button onclick="answerIntake('${q.key}','${c.replace(/'/g,"&#39;")}')">${c}</button>`).join("");
+  return `<div class="ai bubble" id="intakeCard">
+    <b>${q.q}</b>
+    <div class="chips">${chipHtml}</div>
+    <input class="qown" placeholder="…or in your own words" onkeydown="if(event.key==='Enter'){answerIntake('${q.key}', this.value); this.value='';}" />
+    <div class="skiprow"><span onclick="skipIntakeQ()">skip, it's okay →</span></div>
+  </div>`;
+}
+function answerIntake(key, val){
+  if (val && val.trim()) profile[key] = val.trim();
+  localStorage.setItem("ishelle-profile", JSON.stringify(profile));
+  cur.intakeStep = (cur.intakeStep || 0) + 1;
+  saveThreads(); renderChat();
+}
+function skipIntakeQ(){ cur.intakeStep = (cur.intakeStep || 0) + 1; saveThreads(); renderChat(); }
+
 function renderChat(){
   const box = document.getElementById("chat");
   box.innerHTML = "";
-  if (!cur || cur.msgs.length === 0){
-    const s = document.createElement("div");
-    s.className = "starters"; s.id = "starters";
-    STARTERS[mode].forEach(t => {
-      const b = document.createElement("button");
-      b.textContent = t; b.onclick = () => send(t);
-      s.appendChild(b);
-    });
-    box.appendChild(s);
+  if (!cur){
+    box.innerHTML = '<div class="greet serif">'+greetLine()+'</div><div class="ai bubble"><b>Love isn\\'t leaving you. It\\'s just speaking a language no one taught you.</b><br><br>I\\'m glad you\\'re here. Tap a mode above whenever you\\'re ready — I\\'ll be right here.</div>';
     return;
   }
-  let lastDay = "";
+  if (!cur.msgs.length){
+    let html = '<div class="greet serif">'+greetLine()+'</div>';
+    html += '<div class="ai bubble"><b>Love isn\\'t leaving you. It\\'s just speaking a language no one taught you.</b><br><br>Let\\'s learn it together, gently. Whenever you\\'re ready, tell me what\\'s on your heart.</div>';
+    html += renderIntakeCard();
+    html += '<div class="starters" id="starters">' + STARTERS[mode].map(s => `<button onclick="send(${JSON.stringify(s)})">${s}</button>`).join("") + '</div>';
+    box.innerHTML = html;
+    return;
+  }
+  let lastDay = "", html = "";
   cur.msgs.forEach(m => {
     const label = dayLabel(m.ts || Date.now());
-    if (label !== lastDay){
-      lastDay = label;
-      const dc = document.createElement("div");
-      dc.className = "datechip"; dc.innerHTML = "<span>" + label + "</span>";
-      box.appendChild(dc);
-    }
-    const d = document.createElement("div");
-    d.className = "bubble " + (m.role === "user" ? "user" : "ai");
-    d.textContent = m.content;
-    box.appendChild(d);
+    if (label !== lastDay){ lastDay = label; html += `<div class="datechip"><span>${label}</span></div>`; }
+    html += `<div class="bubble ${m.role === 'user' ? 'user' : 'ai'}">${escapeHtml(m.content)}</div>`;
   });
+  html += renderIntakeCard();
+  box.innerHTML = html;
   box.lastElementChild?.scrollIntoView({ behavior: "auto" });
 }
+function escapeHtml(s){ const d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+
 function bubble(text, who, typing){
   const box = document.getElementById("chat");
   const d = document.createElement("div");
@@ -370,13 +472,15 @@ function bubble(text, who, typing){
   return d;
 }
 
-// ─── Timer ───
+// ═══════════════════ TIMER ═══════════════════
 function cycleStart(){ const v = localStorage.getItem("ishelle-start"); return v ? parseInt(v) : null; }
 function checkAccess(){
+  const tier = TIERS[getTier()];
+  if (tier.freeHours === null) return "open";
   const start = cycleStart(); const now = Date.now();
   if (!start) return "fresh";
-  if (now - start < FREE_HOURS * 3600000) return "open";
-  if (now - start < RESET_HOURS * 3600000) return "locked";
+  if (now - start < tier.freeHours * 3600000) return "open";
+  if (now - start < tier.resetHours * 3600000) return "locked";
   localStorage.removeItem("ishelle-start"); return "fresh";
 }
 function fmt(ms){
@@ -385,32 +489,36 @@ function fmt(ms){
 }
 function refreshLockUI(){
   const state = checkAccess();
+  const tier = TIERS[getTier()];
   const lock = document.getElementById("lock");
   const chip = document.getElementById("timerchip");
   if (state === "locked"){
     lock.style.display = "flex";
-    document.getElementById("lockcount").textContent = fmt(cycleStart() + RESET_HOURS*3600000 - Date.now());
+    document.getElementById("lockcount").textContent = fmt(cycleStart() + tier.resetHours*3600000 - Date.now());
   } else {
     lock.style.display = "none";
-    if (state === "open"){
+    if (tier.freeHours === null){
       chip.style.display = "inline-block";
-      chip.textContent = "⏳ " + fmt(cycleStart() + FREE_HOURS*3600000 - Date.now());
+      chip.textContent = "✨ Premium";
+    } else if (state === "open" && cycleStart()){
+      chip.style.display = "inline-block";
+      chip.textContent = "⏳ " + fmt(cycleStart() + tier.freeHours*3600000 - Date.now());
     } else chip.style.display = "none";
   }
 }
 setInterval(refreshLockUI, 1000);
 
-// ─── Master Capsule (whole thread 💊) ───
+// ═══════════════════ CAPSULE ═══════════════════
 function buildCapsule(){
-  let cap = "═══ MY " + "{{ app_name }}".toUpperCase() + " MASTER CONTEXT CAPSULE ═══\n";
-  cap += "Created: " + new Date().toLocaleString("en-IN") + "\n";
-  cap += "Mode: " + (mode === "partner" ? "I love an avoidant" : "I am the avoidant") + "\n";
+  let cap = "═══ MY " + "{{ app_name }}".toUpperCase() + " MASTER CONTEXT CAPSULE ═══\\n";
+  cap += "Created: " + new Date().toLocaleString("en-IN") + "\\n";
+  cap += "Mode: " + (mode === "partner" ? "I love an avoidant" : "I am the avoidant") + "\\n";
   const labels = {stage:"Situation", duration:"Together for", realized:"Realized pattern", discovered:"Discovered via", age:"Age", gender:"Gender"};
-  for (const k in labels) if (profile[k]) cap += labels[k] + ": " + profile[k] + "\n";
-  cap += "\n— Full conversation from the beginning —\n";
+  for (const k in labels) if (profile[k]) cap += labels[k] + ": " + profile[k] + "\\n";
+  cap += "\\n— Full conversation from the beginning —\\n";
   (cur ? cur.msgs : []).forEach(m => {
     const when = m.ts ? new Date(m.ts).toLocaleString("en-IN") : "";
-    cap += "[" + when + "] " + (m.role === "user" ? "Me: " : "{{ app_name }}: ") + m.content + "\n";
+    cap += "[" + when + "] " + (m.role === "user" ? "Me: " : "{{ app_name }}: ") + m.content + "\\n";
   });
   cap += "═══ Paste this at the start of a fresh chat to continue seamlessly ═══";
   return cap;
@@ -429,7 +537,20 @@ function downloadCapsule(){
   a.click(); URL.revokeObjectURL(a.href);
 }
 
-// ─── Voice input ───
+// ═══════════════════ SECOND BRAIN (partner notes) ═══════════════════
+function getNotes(){ return localStorage.getItem("ishelle-partner-notes") || ""; }
+function openNotes(){
+  document.getElementById("notesBox").value = getNotes();
+  document.getElementById("notesModal").style.display = "flex";
+  toggleSide(false);
+}
+function saveNotes(){
+  const val = document.getElementById("notesBox").value.trim();
+  localStorage.setItem("ishelle-partner-notes", val);
+  closeModal("notesModal");
+}
+
+// ═══════════════════ VOICE INPUT ═══════════════════
 let recog = null, recording = false;
 function toggleMic(){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -440,47 +561,92 @@ function toggleMic(){
   recog.lang = "en-IN"; recog.interimResults = true; recog.continuous = true;
   const input = document.getElementById("input");
   const base = input.value ? input.value + " " : "";
-  recog.onresult = e => { let t = ""; for (const r of e.results) t += r[0].transcript; input.value = base + t; };
+  recog.onresult = e => { let t = ""; for (const r of e.results) t += r[0].transcript; input.value = base + t; saveDraft(); };
   recog.onend = () => { recording = false; btn.classList.remove("rec"); btn.textContent = "🎙"; };
   recog.onerror = () => { recording = false; btn.classList.remove("rec"); btn.textContent = "🎙"; };
   recog.start(); recording = true; btn.classList.add("rec"); btn.textContent = "⏹";
 }
 
-// ─── Intake ───
+// ═══════════════════ DRAFT GUARD (crash-proof typing) ═══════════════════
+function saveDraft(){ localStorage.setItem("ishelle-draft", document.getElementById("input").value); }
+function restoreDraft(){
+  const d = localStorage.getItem("ishelle-draft");
+  if (d) document.getElementById("input").value = d;
+}
+function clearDraft(){ localStorage.removeItem("ishelle-draft"); }
+
+// ═══════════════════ INTAKE (legacy full-panel, via "My details") ═══════════════════
 function openIntake(){
-  document.getElementById("intake").style.display = "block";
-  document.querySelectorAll("#intake .q").forEach(q => {
-    const key = q.dataset.key; const val = profile[key] || "";
-    const chipMatch = [...q.querySelectorAll(".chips button")].find(b => b.textContent === val);
-    q.querySelectorAll(".chips button").forEach(b => b.classList.toggle("sel", b === chipMatch));
-    q.querySelector(".own").value = chipMatch ? "" : val;
+  let html = '<div class="box" style="max-width:440px; text-align:left; max-height:80vh; overflow-y:auto">';
+  html += '<h2 class="serif" style="text-align:center">Your details 💗</h2>';
+  INTAKE_Q.forEach(q => {
+    const cur_ = profile[q.key] || "";
+    html += `<p style="font-size:13px; font-weight:700; margin-top:14px">${q.q}</p>`;
+    html += `<div class="chips">` + q.chips.map(c => `<button onclick="quickSet('${q.key}','${c.replace(/'/g,"&#39;")}')" class="${cur_===c?'sel':''}">${c}</button>`).join("") + `</div>`;
+    html += `<input class="qown" id="own_${q.key}" placeholder="…or in your own words" value="${[...q.chips].includes(cur_)?'':cur_}" onchange="quickSet('${q.key}', this.value)" />`;
   });
+  html += '<div class="btns" style="margin-top:16px"><button class="ghost" onclick="closeModal(\\'detailsModal\\')">Done</button></div></div>';
+  let m = document.getElementById("detailsModal");
+  if (!m){ m = document.createElement("div"); m.className="modal"; m.id="detailsModal"; document.body.appendChild(m); }
+  m.innerHTML = html;
+  m.style.display = "flex";
   toggleSide(false);
 }
-function skipIntake(){
-  localStorage.setItem("ishelle-intake-seen", "1");
-  document.getElementById("intake").style.display = "none";
-}
-function saveIntake(){
-  document.querySelectorAll("#intake .q").forEach(q => {
-    const key = q.dataset.key;
-    const own = q.querySelector(".own").value.trim();
-    const chip = q.querySelector(".chips button.sel");
-    const val = own || (chip ? chip.textContent : "");
-    if (val) profile[key] = val; else delete profile[key];
-  });
-  localStorage.setItem("ishelle-profile", JSON.stringify(profile));
-  skipIntake();
-}
-document.addEventListener("click", e => {
-  if (e.target.matches("#intake .chips button")) {
-    e.target.parentElement.querySelectorAll("button").forEach(b => b.classList.remove("sel"));
-    e.target.classList.add("sel");
-    e.target.closest(".q").querySelector(".own").value = "";
-  }
-});
+function quickSet(key, val){ if (val && val.trim()){ profile[key]=val.trim(); localStorage.setItem("ishelle-profile", JSON.stringify(profile)); } }
 
-// ─── Chat ───
+// ═══════════════════ FEEDBACK ═══════════════════
+function openFeedback(){ starVal=0; document.querySelectorAll("#fbstars span").forEach(s=>s.classList.remove("on")); document.getElementById("fbText").value=""; document.getElementById("feedbackModal").style.display="flex"; toggleSide(false); }
+function setStar(n){ starVal=n; document.querySelectorAll("#fbstars span").forEach((s,i)=>s.classList.toggle("on", i<n)); }
+function sendFeedback(){
+  const log = JSON.parse(localStorage.getItem("ishelle-feedback")||"[]");
+  log.push({ stars: starVal, text: document.getElementById("fbText").value.trim(), ts: Date.now() });
+  localStorage.setItem("ishelle-feedback", JSON.stringify(log));
+  closeModal("feedbackModal");
+  alert("Thank you 💗 — this helps Ishelle grow.");
+}
+
+// ═══════════════════ APP LOCK ═══════════════════
+function getPin(){ return localStorage.getItem("ishelle-pin") || ""; }
+function openLockSetup(){
+  document.getElementById("lockSetupText").textContent = getPin() ? "Change or remove your PIN." : "Set a 4-digit PIN so only you can open " + "{{ app_name }}" + ".";
+  document.getElementById("pinInput").value = "";
+  document.getElementById("lockSetupModal").style.display = "flex";
+  toggleSide(false);
+}
+function savePin(){
+  const v = document.getElementById("pinInput").value.trim();
+  if (!/^\d{4}$/.test(v)){ alert("Please enter exactly 4 digits."); return; }
+  localStorage.setItem("ishelle-pin", v);
+  updateLockPillLabel();
+  closeModal("lockSetupModal");
+}
+function removePin(){ localStorage.removeItem("ishelle-pin"); updateLockPillLabel(); closeModal("lockSetupModal"); }
+function updateLockPillLabel(){ document.getElementById("lockPill").classList.toggle("on", !!getPin()); }
+function checkPin(){
+  const v = document.getElementById("pinCheck").value.trim();
+  if (v === getPin()){ document.getElementById("applock").style.display = "none"; }
+  else { document.getElementById("pinError").textContent = "Incorrect PIN — try again."; }
+}
+function maybeShowLock(){
+  if (getPin()){ document.getElementById("applock").style.display = "flex"; }
+}
+
+// ═══════════════════ PLAN ═══════════════════
+function openPlan(){ document.getElementById("planModal").style.display = "flex"; toggleSide(false); }
+function updatePlanBadge(){
+  const tier = TIERS[getTier()];
+  const pill = document.getElementById("planPill");
+  if (pill) pill.textContent = "✨ " + tier.label + " plan";
+}
+
+// ═══════════════════ ERASE ALL ═══════════════════
+function eraseAll(){
+  if (!confirm("This permanently deletes every chat, note, and setting from this device. Continue?")) return;
+  localStorage.clear();
+  location.reload();
+}
+
+// ═══════════════════ CHAT ═══════════════════
 function setMode(m){
   mode = m;
   document.getElementById("m-partner").classList.toggle("on", m === "partner");
@@ -491,6 +657,7 @@ function setMode(m){
 }
 
 async function send(preset){
+  pruneExpired();
   const state = checkAccess();
   if (state === "locked"){ refreshLockUI(); return; }
   if (state === "fresh") localStorage.setItem("ishelle-start", String(Date.now()));
@@ -499,8 +666,9 @@ async function send(preset){
   const input = document.getElementById("input");
   const content = (preset || input.value).trim();
   if (!content) return;
-  input.value = "";
+  input.value = ""; clearDraft();
   document.getElementById("starters")?.remove();
+  document.getElementById("intakeCard")?.remove();
 
   bubble(content, "user");
   cur.msgs.push({ role: "user", content, ts: Date.now() });
@@ -523,27 +691,30 @@ async function send(preset){
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mode, messages: cur.msgs.map(m => ({role:m.role, content:m.content})), profile: prof })
+      body: JSON.stringify({ mode, messages: cur.msgs.map(m => ({role:m.role, content:m.content})), profile: prof, partner_notes: getNotes() })
     });
     const data = await res.json();
-    if (data.error){ t.textContent = "⚠ " + data.error; cur.msgs.pop(); saveThreads(); return; }
-    t.textContent = data.reply;
+    if (data.error){ t.textContent = "That thought needs a moment to land — mind trying again? 💗"; 
     cur.msgs.push({ role: "assistant", content: data.reply, ts: Date.now() });
     saveThreads();
   } catch {
-    t.textContent = "⚠ Connection problem — try again.";
+    t.textContent = "Seems we lost signal for a second — I'm still here, try again? 💗";cur.msgs.pop(); saveThreads(); console.warn(data.error); return; }
+    t.textContent = data.reply;
     cur.msgs.pop(); saveThreads();
   }
 }
 
-// ─── Init ───
+// ═══════════════════ INIT ═══════════════════
 applyTheme();
+pruneExpired();
+updateLockPillLabel();
+updatePlanBadge();
+maybeShowLock();
 if (threads.length) { cur = threads[0]; mode = cur.mode || "partner";
   document.getElementById("m-partner").classList.toggle("on", mode === "partner");
   document.getElementById("m-avoidant").classList.toggle("on", mode === "avoidant");
-} else newThread();
-renderThreadList(); renderChat(); refreshLockUI();
-if (!localStorage.getItem("ishelle-intake-seen")) openIntake();
+}
+renderThreadList(); renderChat(); refreshLockUI(); restoreDraft();
 </script>
 </body>
 </html>

@@ -24,6 +24,11 @@
   body{background:var(--base); color:var(--ink); font-family:'Instrument Sans',system-ui,sans-serif; display:flex; flex-direction:column; height:100dvh; transition:background .3s}
   .serif{font-family:'Fraunces',serif}
 
+  /* Icon system — replaces all emoji */
+  .icon{width:18px; height:18px; display:inline-block; vertical-align:-4px; flex-shrink:0}
+  .hbtn .icon{width:20px; height:20px; vertical-align:-5px}
+  button{display:inline-flex; align-items:center; gap:6px}
+
   /* Splash */
   #splash{position:fixed; inset:0; z-index:200; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:30px;
     background:radial-gradient(circle at 30% 25%, var(--rose-tint) 0%, transparent 55%), radial-gradient(circle at 75% 78%, var(--rose-tint) 0%, transparent 50%), var(--base)}
@@ -44,7 +49,6 @@
   .toolrow{display:flex; gap:7px; justify-content:center; padding:6px 16px; flex-wrap:wrap}
   .pill{font-size:11px; color:var(--rose-deep); background:var(--rose-tint); border:none; border-radius:20px; padding:5px 12px; font-weight:600; font-family:inherit; cursor:pointer}
   .pill.on{background:var(--rose-deep); color:#fff}
-  .timerchip{display:none; font-size:11px; color:var(--rose-deep); background:var(--rose-tint); border-radius:20px; padding:5px 12px; font-weight:600}
   main{flex:1; overflow-y:auto; padding:10px 16px; max-width:640px; width:100%; margin:0 auto}
   .greet{font-family:'Fraunces',serif; font-style:italic; font-size:14.5px; color:var(--rose-deep); margin-bottom:14px}
   .bubble{max-width:88%; padding:13px 16px; border-radius:6px 18px 18px 18px; font-size:14.5px; line-height:1.65; white-space:pre-wrap; margin-bottom:10px}
@@ -68,7 +72,7 @@
   .row{display:flex; gap:8px; max-width:640px; margin:0 auto}
   textarea#input{flex:1; padding:12px 14px; border-radius:12px; border:1.5px solid var(--line); background:var(--input); font-size:14px; font-family:inherit; color:var(--ink); outline:none; resize:none; max-height:120px}
   textarea#input:focus{border-color:var(--rose)}
-  .send,.mic{padding:0 16px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; cursor:pointer; font-family:inherit; font-size:16px}
+  .send,.mic{padding:0 16px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; cursor:pointer; font-family:inherit; font-size:16px; display:flex; align-items:center; justify-content:center}
   .mic{background:var(--card); color:var(--rose); border:1.5px solid var(--rose)}
   .mic.rec{background:var(--rose-deep); color:#fff; border-color:var(--rose-deep)}
   .disclaimer{text-align:center; font-size:10px; color:var(--soft); margin-top:6px}
@@ -80,8 +84,8 @@
   #side.open{left:0}
   #side .shead{padding:16px; border-bottom:1px solid var(--line)}
   #side .shead h2{font-family:'Fraunces',serif; font-size:18px}
-  #side .newchat{margin:12px 16px 4px; padding:11px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; font-family:inherit; cursor:pointer}
-  #side .inco{margin:0 16px 8px; padding:10px; border-radius:12px; border:1.5px dashed var(--rose); background:none; color:var(--rose-deep); font-weight:700; font-family:inherit; cursor:pointer; font-size:12.5px}
+  #side .newchat{margin:12px 16px 4px; padding:11px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; font-family:inherit; cursor:pointer; justify-content:center}
+  #side .inco{margin:0 16px 8px; padding:10px; border-radius:12px; border:1.5px dashed var(--rose); background:none; color:var(--rose-deep); font-weight:700; font-family:inherit; cursor:pointer; font-size:12.5px; justify-content:center}
   #side .list{flex:1; overflow-y:auto; padding:6px 10px}
   .thread{display:flex; align-items:center; gap:6px; margin-bottom:4px}
   .thread .open-t{flex:1; text-align:left; padding:10px 12px; border-radius:10px; border:none; background:none; color:var(--ink); font-family:inherit; font-size:13px; cursor:pointer; overflow:hidden; white-space:nowrap; text-overflow:ellipsis}
@@ -89,21 +93,22 @@
   .thread .del{background:none; border:none; color:var(--soft); cursor:pointer; font-size:14px; padding:6px}
   #side .sfoot{padding:12px 16px; border-top:1px solid var(--line); display:grid; gap:8px}
   #side .sfoot button, #side .sfoot a{text-align:left; background:none; border:none; color:var(--soft); font-family:inherit; font-size:13px; cursor:pointer; text-decoration:none; padding:4px 0}
+  #side .crisis-note{font-size:11px; color:var(--soft); padding-top:10px; margin-top:4px; border-top:1px solid var(--line); line-height:1.5}
 
   /* Modals */
   .modal{display:none; position:fixed; inset:0; background:var(--shadow); z-index:80; align-items:center; justify-content:center; padding:24px}
   .modal .box{background:var(--card); border-radius:20px; padding:24px; max-width:400px; width:100%; text-align:center}
-  .modal h2{font-family:'Fraunces',serif; font-size:20px; margin-bottom:8px}
+  .modal h2{font-family:'Fraunces',serif; font-size:20px; margin-bottom:8px; justify-content:center}
   .modal p{font-size:13.5px; color:var(--soft); line-height:1.55; margin-bottom:14px}
   .modal input.pin{width:100%; text-align:center; letter-spacing:10px; font-size:22px; padding:12px; border-radius:12px; border:1.5px solid var(--line); background:var(--input); color:var(--ink); margin-bottom:10px}
   .modal textarea.fb{width:100%; padding:11px; border-radius:12px; border:1.5px solid var(--line); background:var(--input); color:var(--ink); font-family:inherit; font-size:13.5px; min-height:70px; margin-bottom:10px}
   .modal .btns{display:grid; gap:8px}
-  .modal .btns button{padding:12px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; font-family:inherit; cursor:pointer}
+  .modal .btns button{padding:12px; border-radius:12px; border:none; background:var(--rose); color:#fff; font-weight:700; font-family:inherit; cursor:pointer; justify-content:center}
   .modal .btns button.ghost{background:var(--card); color:var(--rose); border:1.5px solid var(--rose)}
   #lock .count{font-family:'Fraunces',serif; font-size:30px; color:var(--rose-deep); margin:10px 0}
   #lock .premium{margin-top:14px; background:var(--rose-tint); border:1.5px dashed var(--rose); border-radius:14px; padding:14px; font-size:13.5px; color:var(--rose-deep); font-weight:600}
   #applock{position:fixed; inset:0; z-index:150; display:none; align-items:center; justify-content:center; background:var(--base); flex-direction:column; padding:30px}
-  #applock h2{font-family:'Fraunces',serif; font-size:22px; margin-bottom:16px}
+  #applock h2{font-family:'Fraunces',serif; font-size:22px; margin-bottom:16px; justify-content:center}
   .fbstars{display:flex; gap:8px; justify-content:center; margin-bottom:10px; font-size:26px}
   .fbstars span{cursor:pointer; opacity:.35}
   .fbstars span.on{opacity:1}
@@ -112,6 +117,25 @@
 </style>
 </head>
 <body>
+
+<!-- Icon sprite sheet — premium minimal line icons, replaces every emoji in the app -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+<symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12.5A8 8 0 1 1 11.5 4a6.5 6.5 0 0 0 8.5 8.5z"/></symbol>
+<symbol id="i-glasses" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="6" cy="12" r="3.2"/><circle cx="18" cy="12" r="3.2"/><path d="M9.2 12h5.6M2.8 11l3-1M21.2 11l-3-1"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></symbol>
+<symbol id="i-mic-off" viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="7" width="10" height="10" rx="2"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+<symbol id="i-capsule" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l7-7a4.95 4.95 0 1 1 7 7l-7 7a4.95 4.95 0 1 1-7-7z"/><line x1="9" y1="8" x2="16" y2="15"/></symbol>
+<symbol id="i-notes" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></symbol>
+<symbol id="i-brain" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4a3 3 0 0 0-3 3v1a3 3 0 0 0-1 5.8V15a3 3 0 0 0 3 3h1M15 4a3 3 0 0 1 3 3v1a3 3 0 0 1 1 5.8V15a3 3 0 0 1-3 3h-1M9 4v14M15 4v14"/></symbol>
+<symbol id="i-sparkle" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l1.6 4.9L18.5 9l-4.9 1.6L12 15.5l-1.6-4.9L5.5 9l4.9-1.6z"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 8.4 8.4 0 0 1-3.9-.9L3 20l1.1-4A8.5 8.5 0 1 1 21 11.5z"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+</svg>
 
 <div id="splash">
   <h1>{{ app_name }} <span>·</span></h1>
@@ -124,7 +148,8 @@
     <h1 class="serif">{{ app_name }} <span>·</span></h1>
     <p>{{ tagline }}</p>
   </div>
-  <button class="hbtn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+  <button class="hbtn" onclick="newThread(true)" title="Incognito chat"><svg class="icon"><use href="#i-glasses"/></svg></button>
+  <button class="hbtn" id="themeBtn" onclick="toggleTheme()"><svg class="icon"><use href="#i-moon"/></svg></button>
 </header>
 
 <div class="modes">
@@ -132,52 +157,50 @@
   <button id="m-avoidant" onclick="setMode('avoidant')">I am the avoidant</button>
 </div>
 <div class="toolrow">
-  <span class="timerchip" id="timerchip"></span>
-  <button class="pill" id="planPill" onclick="openPlan()">✨ Free plan</button>
-  <button class="pill" onclick="openCapsule()">💊 Capsule</button>
-  <button class="pill" onclick="openIntake()">✎ My details</button>
-  <button class="pill" onclick="openNotes()">🧠 About them</button>
-  <button class="pill" id="lockPill" onclick="openLockSetup()">🔒 App lock</button>
+  <button class="pill" id="planPill" onclick="openPlan()"><svg class="icon"><use href="#i-sparkle"/></svg> Free plan</button>
+  <button class="pill" onclick="openCapsule()"><svg class="icon"><use href="#i-capsule"/></svg> Capsule</button>
+  <button class="pill" onclick="openIntake()"><svg class="icon"><use href="#i-notes"/></svg> My details</button>
+  <button class="pill" onclick="openNotes()"><svg class="icon"><use href="#i-brain"/></svg> About them</button>
+  <button class="pill" id="lockPill" onclick="openLockSetup()"><svg class="icon"><use href="#i-lock"/></svg></button>
 </div>
 
 <main id="chat"></main>
 
 <footer>
   <div class="row">
-    <button class="mic" id="micBtn" onclick="toggleMic()" title="Speak instead of typing">🎙</button>
+    <button class="mic" id="micBtn" onclick="toggleMic()" title="Speak instead of typing"><svg class="icon"><use href="#i-mic"/></svg></button>
     <textarea id="input" rows="1" placeholder="Type or speak your heart…"
-      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send();}"
       oninput="saveDraft()"></textarea>
-    <button class="send" onclick="send()">→</button>
+    <button class="send" onclick="send()"><svg class="icon"><use href="#i-send"/></svg></button>
   </div>
-  <div class="disclaimer">A coaching companion, not therapy. 18+. In crisis? iCall 9152987821 · <a href="/legal">Privacy & Terms</a></div>
-</footer>
-<!-- Sidebar -->
+  <div class="disclaimer">A coaching companion, not therapy · 18+ · <a href="/legal">Privacy & Terms</a></div>
+</footer><!-- Sidebar -->
 <div id="scrim" onclick="toggleSide(false)"></div>
 <nav id="side">
-  <div class="shead"><h2>Your chats 💗</h2></div>
-  <button class="newchat" onclick="newThread()">+ New chat</button>
-  <button class="inco" onclick="newThread(true)">🕶 Incognito chat (auto-erases in 72h)</button>
+  <div class="shead"><h2>Your chats</h2></div>
+  <button class="newchat" onclick="newThread()"><svg class="icon"><use href="#i-plus"/></svg> New chat</button>
+  <button class="inco" onclick="newThread(true)"><svg class="icon"><use href="#i-glasses"/></svg> Incognito chat (auto-erases in 72h)</button>
   <div class="list" id="threadList"></div>
   <div class="sfoot">
-    <button onclick="toggleTheme()"><span id="themeLabel">🌙 Dark theme</span></button>
-    <button onclick="openIntake()">✎ My details</button>
-    <button onclick="openNotes()">🧠 About their partner</button>
-    <button onclick="openFeedback()">💬 Send feedback</button>
-    <button onclick="openLockSetup()">🔒 App lock</button>
-    <button onclick="eraseAll()" style="color:#b23a3a">🗑 Erase everything</button>
-    <a href="/legal">🛡 Privacy & Terms</a>
+    <button onclick="toggleTheme()"><svg class="icon"><use href="#i-moon"/></svg> <span id="themeLabel">Dark theme</span></button>
+    <button onclick="openIntake()"><svg class="icon"><use href="#i-notes"/></svg> My details</button>
+    <button onclick="openNotes()"><svg class="icon"><use href="#i-brain"/></svg> About their partner</button>
+    <button onclick="openFeedback()"><svg class="icon"><use href="#i-chat"/></svg> Send feedback</button>
+    <button onclick="openLockSetup()"><svg class="icon"><use href="#i-lock"/></svg> App lock</button>
+    <button onclick="eraseAll()" style="color:#b23a3a"><svg class="icon"><use href="#i-trash"/></svg> Erase everything</button>
+    <a href="/legal"><svg class="icon"><use href="#i-shield"/></svg> Privacy & Terms</a>
+    <div class="crisis-note">In crisis? iCall — 9152987821</div>
   </div>
 </nav>
 
 <!-- Capsule modal -->
 <div class="modal" id="capsuleModal">
   <div class="box">
-    <h2 class="serif">💊 Master Context Capsule</h2>
+    <h2 class="serif"><svg class="icon"><use href="#i-capsule"/></svg> Master Context Capsule</h2>
     <p id="capsuleText">Your whole thread — from the very first message — packed safely. Copy or download it, then paste into a fresh chat to continue without losing a thing.</p>
     <div class="btns">
-      <button onclick="copyCapsule()">📋 Copy capsule</button>
-      <button onclick="downloadCapsule()">⬇ Download full chat (.txt)</button>
+      <button onclick="copyCapsule()"><svg class="icon"><use href="#i-notes"/></svg> Copy capsule</button>
+      <button onclick="downloadCapsule()">Download full chat (.txt)</button>
       <button class="ghost" onclick="closeModal('capsuleModal')">Keep chatting here</button>
     </div>
   </div>
@@ -186,7 +209,7 @@
 <!-- Thread-full question box -->
 <div class="modal" id="fullModal">
   <div class="box">
-    <h2 class="serif">This thread is growing full 💗</h2>
+    <h2 class="serif">This thread is growing full</h2>
     <p>To keep {{ app_name }}'s memory of you crisp, would you like your Master Context Capsule to continue in a fresh thread without losing your data?</p>
     <div class="btns">
       <button onclick="closeModal('fullModal'); openCapsule();">Yes, give me my capsule</button>
@@ -198,7 +221,7 @@
 <!-- Second Brain: partner notes -->
 <div class="modal" id="notesModal">
   <div class="box">
-    <h2 class="serif">🧠 About their partner</h2>
+    <h2 class="serif"><svg class="icon"><use href="#i-brain"/></svg> About their partner</h2>
     <p>Tell {{ app_name }} anything about your partner's texting style, habits, or patterns — she'll remember, and never overwrite what you've already shared.</p>
     <textarea class="fb" id="notesBox" placeholder="e.g. He goes quiet for 2 days after fights. Never initiates calls. Replies fast in the morning..."></textarea>
     <div class="btns">
@@ -211,7 +234,7 @@
 <!-- Feedback -->
 <div class="modal" id="feedbackModal">
   <div class="box">
-    <h2 class="serif">💬 How's Ishelle doing?</h2>
+    <h2 class="serif">How's Ishelle doing?</h2>
     <div class="fbstars" id="fbstars">
       <span onclick="setStar(1)">★</span><span onclick="setStar(2)">★</span><span onclick="setStar(3)">★</span><span onclick="setStar(4)">★</span><span onclick="setStar(5)">★</span>
     </div>
@@ -226,7 +249,7 @@
 <!-- App lock setup -->
 <div class="modal" id="lockSetupModal">
   <div class="box">
-    <h2 class="serif">🔒 App Lock</h2>
+    <h2 class="serif"><svg class="icon"><use href="#i-lock"/></svg> App Lock</h2>
     <p id="lockSetupText">Set a 4-digit PIN so only you can open {{ app_name }}.</p>
     <input class="pin" id="pinInput" maxlength="4" inputmode="numeric" placeholder="••••" />
     <div class="btns">
@@ -239,7 +262,7 @@
 
 <!-- App lock screen -->
 <div id="applock">
-  <h2>🔒 Enter your PIN</h2>
+  <h2><svg class="icon"><use href="#i-lock"/></svg> Enter your PIN</h2>
   <input class="pin" id="pinCheck" maxlength="4" inputmode="numeric" style="max-width:220px" />
   <div class="btns" style="margin-top:14px; width:100%; max-width:260px">
     <button onclick="checkPin()">Unlock</button>
@@ -250,18 +273,18 @@
 <!-- Lock (time-based) -->
 <div class="modal" id="lock">
   <div class="box">
-    <h2 class="serif">Taking a little pause 💗</h2>
+    <h2 class="serif">Taking a little pause</h2>
     <p>Your free hours with {{ app_name }} are done for today. She'll be back for you in:</p>
     <div class="count" id="lockcount">--:--:--</div>
     <p>Good love knows how to wait. See you soon.</p>
-    <div class="premium">✨ Want her sooner, or always?<br/>Explore Pro & Premium in the ✨ plan menu above.<br/><span style="font-weight:400">Payments coming soon</span></div>
+    <div class="premium">Want her sooner, or always?<br/>Explore Pro & Premium in the plan menu above.<br/><span style="font-weight:400">Payments coming soon</span></div>
   </div>
 </div>
 
 <!-- Plan (preview only — payments not live yet) -->
 <div class="modal" id="planModal">
   <div class="box">
-    <h2 class="serif">✨ Your plan</h2>
+    <h2 class="serif"><svg class="icon"><use href="#i-sparkle"/></svg> Your plan</h2>
     <p>Real payments aren't connected yet — this lets you preview how each tier will feel.</p>
     <div class="btns">
       <button onclick="setTier('free')">Free — 3h open, resets every 5h</button>
@@ -283,7 +306,7 @@
     </div>
     <div class="btns" style="margin-top:14px"><button class="ghost" onclick="closeModal('settingsModal')">Close</button></div>
   </div>
-</div><script>
+</div>
 // ═══════════════════ SETTINGS ═══════════════════
 const TIERS = {
   free:    { freeHours: 3, resetHours: 5,   label: "Free" },
@@ -324,14 +347,13 @@ const INTAKE_Q = [
 
 function greetLine(){
   const h = new Date().getHours();
-  if (h>=1 && h<5) return "2am thoughts again? Good thing I never sleep 😌";
-  if (h>=5 && h<12) return "Good morning 💗 the heart woke up before the coffee, didn't it?";
+  if (h>=1 && h<5) return "2am thoughts again? Good thing I never sleep";
+  if (h>=5 && h<12) return "Good morning — the heart woke up before the coffee, didn't it?";
   if (h>=12 && h<17) return "Stealing a moment for your heart between everything? Smart.";
   if (h>=17 && h<21) return "Evening — the hour when hearts get a little loud. I'm glad you're here.";
   if (h>=21 || h<1) return "The night suits you. Come, tell me everything.";
   return "Hi, I'm glad you're here.";
 }
-
 // ═══════════════════ SPLASH ═══════════════════
 window.addEventListener("load", () => {
   setTimeout(() => {
@@ -345,7 +367,7 @@ window.addEventListener("load", () => {
 // ═══════════════════ THREADS ═══════════════════
 function saveThreads(){ localStorage.setItem("ishelle-threads", JSON.stringify(threads)); }
 function newThread(incognito){
-  cur = { id: Date.now(), title: incognito ? "🕶 Incognito" : "New chat", mode: mode, msgs: [], incognito: !!incognito, expires: incognito ? Date.now() + INCOGNITO_HOURS*3600000 : null, intakeStep: 0 };
+  cur = { id: Date.now(), title: incognito ? "Incognito" : "New chat", mode: mode, msgs: [], incognito: !!incognito, expires: incognito ? Date.now() + INCOGNITO_HOURS*3600000 : null, intakeStep: 0 };
   threads.unshift(cur);
   if (threads.length > 60) threads.pop();
   saveThreads(); renderThreadList(); renderChat(); toggleSide(false);
@@ -379,7 +401,9 @@ function renderThreadList(){
     b.className = "open-t"; b.textContent = t.title || "New chat";
     b.onclick = () => openThread(t.id);
     const x = document.createElement("button");
-    x.className = "del"; x.textContent = "🗑"; x.onclick = (e) => deleteThread(t.id, e);
+    x.className = "del";
+    x.innerHTML = '<svg class="icon"><use href="#i-trash"/></svg>';
+    x.onclick = (e) => deleteThread(t.id, e);
     d.appendChild(b); d.appendChild(x); box.appendChild(d);
   });
 }
@@ -392,8 +416,8 @@ function toggleSide(open){
 function applyTheme(){
   const dark = localStorage.getItem("ishelle-theme") === "dark";
   document.body.classList.toggle("dark", dark);
-  document.getElementById("themeBtn").textContent = dark ? "☀️" : "🌙";
-  document.getElementById("themeLabel").textContent = dark ? "☀️ Light theme" : "🌙 Dark theme";
+  document.getElementById("themeBtn").innerHTML = '<svg class="icon"><use href="#i-' + (dark ? "sun" : "moon") + '"/></svg>';
+  document.getElementById("themeLabel").textContent = dark ? "Light theme" : "Dark theme";
 }
 function toggleTheme(){
   const dark = localStorage.getItem("ishelle-theme") === "dark";
@@ -404,8 +428,7 @@ function setFontSize(px){
   localStorage.setItem("ishelle-fontsize", px);
   document.getElementById("chat").style.fontSize = px + "px";
 }
-(function(){ const f = localStorage.getItem("ishelle-fontsize"); if (f) document.addEventListener("DOMContentLoaded", () => setFontSize(f)); })();
-
+(function(){ const f = localStorage.getItem("ishelle-fontsize"); if (f) document.
 // ═══════════════════ DATE LABELS & RENDER ═══════════════════
 function dayLabel(ts){
   const d = new Date(ts), now = new Date();
@@ -474,7 +497,7 @@ function bubble(text, who, typing){
   return d;
 }
 
-// ═══════════════════ TIMER ═══════════════════
+// ═══════════════════ ACCESS / TIMER (no visible ticking chip anymore) ═══════════════════
 function cycleStart(){ const v = localStorage.getItem("ishelle-start"); return v ? parseInt(v) : null; }
 function checkAccess(){
   const tier = TIERS[getTier()];
@@ -490,22 +513,16 @@ function fmt(ms){
   return String(Math.floor(s/3600)).padStart(2,"0")+":"+String(Math.floor((s%3600)/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
 }
 function refreshLockUI(){
+  // Only the full-screen "taking a pause" modal ever shows. No ticking chip during normal chat —
+  // an app meant to calm anxious people shouldn't show a countdown mid-conversation.
   const state = checkAccess();
   const tier = TIERS[getTier()];
   const lock = document.getElementById("lock");
-  const chip = document.getElementById("timerchip");
   if (state === "locked"){
     lock.style.display = "flex";
     document.getElementById("lockcount").textContent = fmt(cycleStart() + tier.resetHours*3600000 - Date.now());
   } else {
     lock.style.display = "none";
-    if (tier.freeHours === null){
-      chip.style.display = "inline-block";
-      chip.textContent = "✨ Premium";
-    } else if (state === "open" && cycleStart()){
-      chip.style.display = "inline-block";
-      chip.textContent = "⏳ " + fmt(cycleStart() + tier.freeHours*3600000 - Date.now());
-    } else chip.style.display = "none";
   }
 }
 setInterval(refreshLockUI, 1000);
@@ -528,7 +545,7 @@ function buildCapsule(){
 function openCapsule(){ document.getElementById("capsuleModal").style.display = "flex"; }
 function closeModal(id){ document.getElementById(id).style.display = "none"; }
 async function copyCapsule(){
-  try { await navigator.clipboard.writeText(buildCapsule()); document.getElementById("capsuleText").textContent = "📋 Copied! Open a new chat (☰ → New chat) and paste it as your first message — nothing lost. 💗"; }
+  try { await navigator.clipboard.writeText(buildCapsule()); document.getElementById("capsuleText").textContent = "Copied! Open a new chat (☰ → New chat) and paste it as your first message — nothing lost."; }
   catch { prompt("Copy your capsule:", buildCapsule()); }
 }
 function downloadCapsule(){
@@ -552,21 +569,66 @@ function saveNotes(){
   closeModal("notesModal");
 }
 
-// ═══════════════════ VOICE INPUT ═══════════════════
-let recog = null, recording = false;
+// ═══════════════════ VOICE INPUT — FIXED ═══════════════════
+// Bug before: onresult looped over ALL e.results from index 0 every single event,
+// re-appending the whole growing transcript on top of itself each time (hence
+// "see I want to see I want to know that..."). Fix: only append text once a
+// result is marked isFinal, track interim text separately, and just overwrite
+// (never re-read old finals). Also auto-restarts if Chrome mobile silently
+// ends the session mid-sentence (a common Android quirk), so it doesn't just
+// stop listening on its own.
+let recog = null, recording = false, finalTranscript = "", baseText = "";
+
 function toggleMic(){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR){ alert("Voice input isn't supported in this browser — Chrome works best."); return; }
   const btn = document.getElementById("micBtn");
-  if (recording){ recog.stop(); return; }
+
+  if (recording){
+    recording = false;
+    recog.stop();
+    return;
+  }
+
   recog = new SR();
-  recog.lang = "en-IN"; recog.interimResults = true; recog.continuous = true;
+  recog.lang = "en-IN";
+  recog.interimResults = true;
+  recog.continuous = true;
+
   const input = document.getElementById("input");
-  const base = input.value ? input.value + " " : "";
-  recog.onresult = e => { let t = ""; for (const r of e.results) t += r[0].transcript; input.value = base + t; saveDraft(); };
-  recog.onend = () => { recording = false; btn.classList.remove("rec"); btn.textContent = "🎙"; };
-  recog.onerror = () => { recording = false; btn.classList.remove("rec"); btn.textContent = "🎙"; };
-  recog.start(); recording = true; btn.classList.add("rec"); btn.textContent = "⏹";
+  baseText = input.value ? input.value + " " : "";
+  finalTranscript = "";
+
+  recog.onresult = e => {
+    let interim = "";
+    for (let i = e.resultIndex; i < e.results.length; i++){
+      const r = e.results[i];
+      if (r.isFinal) finalTranscript += r[0].transcript + " ";
+      else interim += r[0].transcript;
+    }
+    input.value = baseText + finalTranscript + interim;
+    saveDraft();
+  };
+
+  recog.onend = () => {
+    if (recording){
+      // Session ended on its own (common on Android Chrome) but user hasn't tapped stop — restart quietly
+      try { recog.start(); return; } catch(_){}
+    }
+    btn.classList.remove("rec");
+    btn.innerHTML = '<svg class="icon"><use href="#i-mic"/></svg>';
+  };
+
+  recog.onerror = () => {
+    recording = false;
+    btn.classList.remove("rec");
+    btn.innerHTML = '<svg class="icon"><use href="#i-mic"/></svg>';
+  };
+
+  recog.start();
+  recording = true;
+  btn.classList.add("rec");
+  btn.innerHTML = '<svg class="icon"><use href="#i-mic-off"/></svg>';
 }
 
 // ═══════════════════ DRAFT GUARD (crash-proof typing) ═══════════════════
@@ -580,7 +642,7 @@ function clearDraft(){ localStorage.removeItem("ishelle-draft"); }
 // ═══════════════════ INTAKE (legacy full-panel, still available via "My details") ═══════════════════
 function openIntake(){
   let html = '<div class="box" style="max-width:440px; text-align:left; max-height:80vh; overflow-y:auto">';
-  html += '<h2 class="serif" style="text-align:center">Your details 💗</h2>';
+  html += '<h2 class="serif" style="text-align:center">Your details</h2>';
   INTAKE_Q.forEach(q => {
     const cur_ = profile[q.key] || "";
     html += `<p style="font-size:13px; font-weight:700; margin-top:14px">${q.q}</p>`;
@@ -604,7 +666,7 @@ function sendFeedback(){
   log.push({ stars: starVal, text: document.getElementById("fbText").value.trim(), ts: Date.now() });
   localStorage.setItem("ishelle-feedback", JSON.stringify(log));
   closeModal("feedbackModal");
-  alert("Thank you 💗 — this helps Ishelle grow.");
+  alert("Thank you — this helps Ishelle grow.");
 }
 
 // ═══════════════════ APP LOCK ═══════════════════
@@ -632,13 +694,12 @@ function checkPin(){
 function maybeShowLock(){
   if (getPin()){ document.getElementById("applock").style.display = "flex"; }
 }
-
-// ═══════════════════ PLAN ═══════════════════
+  // ═══════════════════ PLAN ═══════════════════
 function openPlan(){ document.getElementById("planModal").style.display = "flex"; toggleSide(false); }
 function updatePlanBadge(){
   const tier = TIERS[getTier()];
   const pill = document.getElementById("planPill");
-  if (pill) pill.textContent = "✨ " + tier.label + " plan";
+  if (pill) pill.innerHTML = '<svg class="icon"><use href="#i-sparkle"/></svg> ' + tier.label + ' plan';
 }
 
 // ═══════════════════ ERASE ALL ═══════════════════
@@ -696,27 +757,24 @@ async function send(preset){
       body: JSON.stringify({ mode, messages: cur.msgs.map(m => ({role:m.role, content:m.content})), profile: prof, partner_notes: getNotes() })
     });
     const data = await res.json();
-    if (data.error){ t.textContent = "That thought needs a moment to land — mind trying again? 💗"; cur.msgs.pop(); saveThreads(); console.warn(data.error); return; }
-    t.textContent = data.reply;
+    if (data.error){ t.textContent = data.error; return; }
+
     cur.msgs.push({ role: "assistant", content: data.reply, ts: Date.now() });
     saveThreads();
-  } catch {
-    t.textContent = "Seems we lost signal for a second — I'm still here, try again? 💗";
-    cur.msgs.pop(); saveThreads();
+    renderChat();
+  } catch (err) {
+    t.textContent = "That thought needs a moment to land — mind trying again?";
   }
 }
 
 // ═══════════════════ INIT ═══════════════════
-applyTheme();
-pruneExpired();
-updateLockPillLabel();
-updatePlanBadge();
-maybeShowLock();
-if (threads.length) { cur = threads[0]; mode = cur.mode || "partner";
-  document.getElementById("m-partner").classList.toggle("on", mode === "partner");
-  document.getElementById("m-avoidant").classList.toggle("on", mode === "avoidant");
-}
-renderThreadList(); renderChat(); refreshLockUI(); restoreDraft();
-</script>
-</body>
-</html>
+document.addEventListener("DOMContentLoaded", () => {
+  applyTheme();
+  updateLockPillLabel();
+  updatePlanBadge();
+  pruneExpired();
+  renderThreadList();
+  renderChat();
+  restoreDraft();
+  maybeShowLock();
+});
